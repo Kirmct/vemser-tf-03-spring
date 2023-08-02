@@ -16,7 +16,7 @@ public class InvestimentoService {
     }
 
     // criação de um objeto
-    public void adicionarInvestimento(Investimento investimento) {
+    public Investimento adicionarInvestimento(Investimento investimento) {
         try {
             Investimento investimentoAdicionado = investimentoRepository.adicionar(investimento);
             System.out.println();
@@ -26,6 +26,7 @@ public class InvestimentoService {
         } catch (Exception e) {
             System.out.println("ERRO: " + e.getMessage());
         }
+        return investimento;
     }
 
     // remoção
