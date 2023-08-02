@@ -3,14 +3,16 @@ package br.com.dbc.vemser.walletlife.service;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Investimento;
 import br.com.dbc.vemser.walletlife.repository.InvestimentoRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class InvestimentoService {
     private InvestimentoRepository investimentoRepository;
 
-    public InvestimentoService() {
-        investimentoRepository = new InvestimentoRepository();
+    public InvestimentoService(InvestimentoRepository investimentoRepository) {
+        this.investimentoRepository = investimentoRepository;
     }
 
     // criação de um objeto

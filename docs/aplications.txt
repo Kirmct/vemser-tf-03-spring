@@ -1,8 +1,8 @@
-# Configuração do banco de dados Oracle
+# ConfiguraÃ§Ã£o do banco de dados Oracle
 spring.datasource.url=jdbc:oracle:thin:@vemser-hml.dbccompany.com.br:25000:xe
 spring.datasource.username=EQUIPE_5
 spring.datasource.password=oracle
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
 
-# Configuração do schema (opcional)
+# ConfiguraÃ§Ã£o do schema (opcional)
 spring.datasource.schema=EQUIPE_5

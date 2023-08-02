@@ -2,11 +2,13 @@ package br.com.dbc.vemser.walletlife.repository;
 
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Investimento;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class InvestimentoRepository implements Repositorio<Integer, Investimento> {
     @Override
     public Integer getProximoId(Connection connection) throws BancoDeDadosException {
