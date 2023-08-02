@@ -18,21 +18,17 @@ public class InvestimentoController {
         this.investimentoService = investimentoService;
     }
 
-    @GetMapping // GET localhost:8080/investimentos
+    @GetMapping("/{idUsuario}") // GET localhost:8080/investimentos
     public List<Investimento> list() {
         return investimentoService.listar(1);
     }
 
-//    @GetMapping("/byid") // GET localhost:8080/pessoa/byid?id=1
-//    public List<Contato> listByName(@RequestParam("id") Integer id) {
-//        return contatoService.listById(id);
-//    }
-//
-//    @PostMapping // POST localhost:8080/contato
-//    public Contato create(@RequestBody Contato contato) {
-//        return contatoService.create(contato);
-//    }
-//
+
+    @PostMapping // POST localhost:8080/contato
+    public Investimento create(@RequestBody Investimento investimento) {
+        return investimentoService.adicionarInvestimento(investimento);
+    }
+
 //    @PutMapping("/{idContato}") // PUT localhost:8080/contato/1
 //    public Contato update(@PathVariable("idContato") Integer id,
 //                          @RequestBody Contato contatoAtualizar) throws Exception {
