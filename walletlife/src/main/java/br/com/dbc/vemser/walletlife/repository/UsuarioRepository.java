@@ -2,43 +2,14 @@ package br.com.dbc.vemser.walletlife.repository;
 
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Usuario;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UsuarioRepository implements Repositorio<Integer, Usuario> {
-
-    public boolean validarEmail(String email) throws SQLException {
-        String sql = "SELECT * FROM USUARIO u " +
-                "WHERE u.email = '" + email + "'";
-
-        Statement stmt = ConexaoBancoDeDados.getConnection().createStatement();
-        ResultSet res = stmt.executeQuery(sql);
-
-        return res.getRow() > 0;
-    }
-
-    public Usuario loginUsuario(String email, String senha) throws SQLException {
-        String sql = "SELECT * FROM USUARIO u " +
-                "WHERE u.email = '" + email + "' AND u.senha = '" + senha + "'";
-
-        Statement stmt = ConexaoBancoDeDados.getConnection().createStatement();
-        ResultSet res = stmt.executeQuery(sql);
-
-        Usuario usuario = null;
-        while (res.next()) {
-            usuario = new Usuario();
-            usuario.setId(res.getInt("id_usuario"));
-            usuario.setNomeCompleto(res.getString("nome"));
-            usuario.setCpf(res.getString("cpf"));
-            usuario.setEmail(res.getString("email"));
-            usuario.setSenha(res.getString("senha"));
-            usuario.setDataNascimento(res.getDate("dataNascimento").toLocalDate());
-        }
-
-        return usuario;
-    }
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {

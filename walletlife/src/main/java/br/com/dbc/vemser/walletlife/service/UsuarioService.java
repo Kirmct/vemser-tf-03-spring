@@ -3,39 +3,22 @@ package br.com.dbc.vemser.walletlife.service;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Usuario;
 import br.com.dbc.vemser.walletlife.repository.UsuarioRepository;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Service
 public class UsuarioService {
 
-    private static UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    static {
-        usuarioRepository = new UsuarioRepository();
-    }
-
-    public UsuarioService() {
-    }
-
-    public static boolean validarEmail(String email) {
-        try {
-            return usuarioRepository.validarEmail(email);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Usuario login(String email, String senha) {
-        try {
-            return usuarioRepository.loginUsuario(email, senha);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     // criação de um objeto
-    public static void adicionarUsuario(Usuario usuario) {
+    public void adicionarUsuario(Usuario usuario) {
         try {
             if (usuario.getCpf().length() != 11) {
                 throw new Exception("CPF Invalido!");
@@ -49,8 +32,6 @@ public class UsuarioService {
             e.printStackTrace();
         } catch (Exception e) {
             System.out.println("ERRO: " + e.getMessage());
-//            System.out.println("TRACE: ");
-//            e.printStackTrace();
         }
     }
 
@@ -76,9 +57,9 @@ public class UsuarioService {
     }
 
     // leitura
-    public List<Usuario> listarPessoas() {
+    public List<Usuario> listarPessoasPorId(Integer id) {
         try {
-            List<Usuario> listar = usuarioRepository.listar(null);
+            List<Usuario> listar = usuarioRepository.listar(id);
             listar.forEach(System.out::println);
             return listar;
         } catch (BancoDeDadosException e) {
