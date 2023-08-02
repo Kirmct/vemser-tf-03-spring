@@ -1,7 +1,7 @@
 package br.com.dbc.vemser.walletlife.repository;
 
-import exceptions.BancoDeDadosException;
-import modelos.Investimento;
+import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
+import br.com.dbc.vemser.walletlife.modelos.Investimento;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
 package br.com.dbc.vemser.walletlife.repository;
 
-import enumerators.TipoDespesaEReceita;
-import exceptions.BancoDeDadosException;
-import modelos.Despesa;
+import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
+import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
+import br.com.dbc.vemser.walletlife.modelos.Despesa;
 
 import java.sql.*;
 import java.util.ArrayList;

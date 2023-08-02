@@ -1,8 +1,8 @@
 package br.com.dbc.vemser.walletlife.service;
 
-import exceptions.BancoDeDadosException;
-import modelos.Despesa;
-import repository.DespesaRepository;
+import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
+import br.com.dbc.vemser.walletlife.modelos.Despesa;
+import br.com.dbc.vemser.walletlife.repository.DespesaRepository;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package br.com.dbc.vemser.walletlife.repository;
 
-import exceptions.BancoDeDadosException;
+import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 
 import java.sql.Connection;
 import java.sql.SQLException;

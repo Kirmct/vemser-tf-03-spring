@@ -1,6 +1,6 @@
 package br.com.dbc.vemser.walletlife.modelos;
 
-import enumerators.TipoDespesaEReceita;
+import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
 
 import java.time.LocalDate;
 

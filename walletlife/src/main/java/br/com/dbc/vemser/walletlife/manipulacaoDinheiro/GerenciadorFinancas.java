@@ -1,10 +1,10 @@
 package br.com.dbc.vemser.walletlife.manipulacaoDinheiro;
 
-import enumerators.TipoDespesaEReceita;
-import modelos.*;
-import service.DespesaService;
-import service.InvestimentoService;
-import service.ReceitaService;
+import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
+import br.com.dbc.vemser.walletlife.modelos.*;
+import br.com.dbc.vemser.walletlife.service.DespesaService;
+import br.com.dbc.vemser.walletlife.service.InvestimentoService;
+import br.com.dbc.vemser.walletlife.service.ReceitaService;
 
 import java.util.HashMap;
 
