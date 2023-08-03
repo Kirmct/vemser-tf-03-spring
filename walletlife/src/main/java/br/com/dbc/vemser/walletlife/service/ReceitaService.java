@@ -44,7 +44,7 @@ public class ReceitaService {
     // atualização de um objeto
     public void editarReceita(Integer id, Receita receita) {
         try {
-            boolean conseguiuEditar = receitaRepository.editar(receita);
+            Receita conseguiuEditar = receitaRepository.editar(id, receita);
             System.out.println();
             System.out.println("Alteração realizada com sucesso!");
         } catch (BancoDeDadosException e) {
@@ -53,9 +53,9 @@ public class ReceitaService {
     }
 
     // leitura
-    public List<Receita> listar(Integer idUsuario) {
+    public List<Receita> listarById(Integer idUsuario) {
         try {
-            return receitaRepository.listar(idUsuario);
+            return receitaRepository.listarPorId(idUsuario);
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }

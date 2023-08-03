@@ -46,9 +46,9 @@ public class UsuarioService {
     }
 
     // atualização de um objeto
-    public void editarPessoa(Usuario usuario) {
+    public void editarPessoa(Integer id, Usuario usuario) {
         try {
-            boolean conseguiuEditar = usuarioRepository.editar(usuario);
+            Usuario conseguiuEditar = usuarioRepository.editar(id, usuario);
             System.out.println();
             System.out.println("USUÁRIO Alterada com sucesso!");
         } catch (BancoDeDadosException e) {
@@ -59,7 +59,7 @@ public class UsuarioService {
     // leitura
     public List<Usuario> listarPessoasPorId(Integer id) {
         try {
-            List<Usuario> listar = usuarioRepository.listar(id);
+            List<Usuario> listar = usuarioRepository.listarPorId(id);
             listar.forEach(System.out::println);
             return listar;
         } catch (BancoDeDadosException e) {

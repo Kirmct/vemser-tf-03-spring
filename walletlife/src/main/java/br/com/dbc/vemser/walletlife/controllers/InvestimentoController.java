@@ -20,7 +20,7 @@ public class InvestimentoController {
 
     @GetMapping("/{idUsuario}") // GET localhost:8080/investimentos
     public List<Investimento> list() {
-        return investimentoService.listar(1);
+        return investimentoService.listarById(1);
     }
 
 

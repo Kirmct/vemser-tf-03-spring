@@ -115,21 +115,12 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             stmt.setString(2, despesa.getDescricao());
             stmt.setInt(3, despesa.getIdFK());
 
-            ResultSet res = stmt.executeQuery();
-            while (res.next()){
-                despesaAtualizada.setId(res.getInt("id_despesa"));
-                despesaAtualizada.setTipo(TipoDespesaEReceita.valueOf(res.getString("Tipo")));
-                despesaAtualizada.setValor(res.getDouble("valor"));
-                despesaAtualizada.setDecricao(res.getString("descricao"));
-                despesaAtualizada.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
-                despesaAtualizada.setIdFK(res.getInt("id_usuario"));
+            // Executa-se a consulta
+            int res = stmt.executeUpdate();
 
+            if(res > 0){
+                return despesa;
             }
-
-
-
-
-            return despesaAtualizada;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -141,6 +132,7 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
                 e.printStackTrace();
             }
         }
+        return null;
     }
 
     @Override

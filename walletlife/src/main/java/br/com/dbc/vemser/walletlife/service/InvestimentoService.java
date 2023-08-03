@@ -44,7 +44,7 @@ public class InvestimentoService {
     // atualização de um objeto
     public void editarInvestimento(Integer id, Investimento investimento) {
         try {
-            investimentoRepository.editar(investimento);
+            investimentoRepository.editar(id, investimento);
             System.out.println();
             System.out.println("INVESTIMENTO alterado com sucesso!");
         } catch (BancoDeDadosException e) {
@@ -53,9 +53,9 @@ public class InvestimentoService {
     }
 
     // leitura
-    public List<Investimento> listar(Integer idUsuario) {
+    public List<Investimento> listarById(Integer idUsuario) {
         try {
-            return investimentoRepository.listar(idUsuario);
+            return investimentoRepository.listarPorId(idUsuario);
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }

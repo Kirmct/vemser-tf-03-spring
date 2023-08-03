@@ -92,10 +92,13 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
     }
 
     @Override
-    public boolean editar(Receita receita) throws BancoDeDadosException {
+    public List<Receita> listar() throws BancoDeDadosException {
+        return null;
+    }
 
+    @Override
+    public Receita editar(Integer id, Receita receita) throws BancoDeDadosException {
         Connection con = null;
-
         try {
             con = ConexaoBancoDeDados.getConnection();
 
@@ -114,9 +117,11 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
             // Executa-se a consulta
             int res = stmt.executeUpdate();
 
-            return res > 0;
+            if (res > 0) {
+                return receita;
+            }
         } catch (SQLException e) {
-            throw new BancoDeDadosException(e.getCause());
+            throw new BancoDeDadosException(e);
         } finally {
             try {
                 if (con != null) {
@@ -126,10 +131,12 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
                 e.printStackTrace();
             }
         }
+        return null;
     }
 
+
     @Override
-    public List<Receita> listar(Integer id) throws BancoDeDadosException {
+    public List<Receita> listarPorId(Integer id) throws BancoDeDadosException {
 
         List<Receita> receitas = new ArrayList<>();
         Connection con = null;

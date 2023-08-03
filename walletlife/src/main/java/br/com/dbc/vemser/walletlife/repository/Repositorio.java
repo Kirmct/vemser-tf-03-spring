@@ -17,6 +17,7 @@ public interface Repositorio<CHAVE, OBJETO> {
     OBJETO editar(CHAVE id, OBJETO objeto) throws BancoDeDadosException;
 
     List<OBJETO> listar() throws BancoDeDadosException;
+
     List<OBJETO> listarPorId(CHAVE id) throws BancoDeDadosException;
 
 }

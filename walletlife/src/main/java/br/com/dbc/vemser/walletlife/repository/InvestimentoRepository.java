@@ -95,7 +95,12 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
     }
 
     @Override
-    public boolean editar(Investimento investimento) throws BancoDeDadosException {
+    public List<Investimento> listar() throws BancoDeDadosException {
+        return null;
+    }
+
+    @Override
+    public Investimento editar(Integer id, Investimento investimento) throws BancoDeDadosException {
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -115,7 +120,9 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
             // Executa-se a consulta
             int res = stmt.executeUpdate();
 
-            return res > 0;
+            if (res > 0){
+                return investimento;
+            }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -127,10 +134,11 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
                 e.printStackTrace();
             }
         }
+        return null;
     }
 
     @Override
-    public List<Investimento> listar(Integer idUsuario) throws BancoDeDadosException {
+    public List<Investimento> listarPorId(Integer idUsuario) throws BancoDeDadosException {
         List<Investimento> investimentos = new ArrayList<>();
         Connection con = null;
         try {
