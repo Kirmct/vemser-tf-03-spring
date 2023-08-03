@@ -71,7 +71,7 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
         try {
             con = ConexaoBancoDeDados.getConnection();
 
-            String sql = "DELETE FROM INVESTIMENTO WHERE ID_USUARIO = ?";
+            String sql = "DELETE FROM INVESTIMENTO WHERE ID_INVESTIMENTO = ?";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -96,7 +96,40 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
 
     @Override
     public List<Investimento> listar() throws BancoDeDadosException {
-        return null;
+        List<Investimento> investimentos = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+
+            String sql = "SELECT * FROM INVESTIMENTO";
+
+            // Executa-se a consulta
+            ResultSet res = stmt.executeQuery(sql);
+
+            while (res.next()) {
+                Investimento investimento = new Investimento();
+                investimento.setId(res.getInt("id_investimento"));
+                investimento.setCorretora(res.getString("corretora"));
+                investimento.setTipo(res.getString("tipo"));
+                investimento.setValor(res.getDouble("valor"));
+                investimento.setDataInicio(res.getDate("data_inicial").toLocalDate());
+                investimento.setDescricao(res.getString("descricao"));
+                investimento.setIdFK(res.getInt("id_usuario"));
+                investimentos.add(investimento);
+            }
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return investimentos;
     }
 
     @Override
@@ -108,19 +141,22 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE INVESTIMENTO SET ");
             sql.append(" valor = ?, ");
-            sql.append(" descricao = ? ");
-            sql.append(" where id_usuario = ? ");
+            sql.append(" descricao = ?, ");
+            sql.append(" corretora = ? ");
+            sql.append(" WHERE id_investimento = ? ");
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
             stmt.setDouble(1, investimento.getValor());
             stmt.setString(2, investimento.getDescricao());
-            stmt.setInt(3, investimento.getIdFK());
+            stmt.setString(3, investimento.getCorretora());
+            stmt.setInt(4, id);
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
 
             if (res > 0){
+                investimento.setId(id);
                 return investimento;
             }
         } catch (SQLException e) {

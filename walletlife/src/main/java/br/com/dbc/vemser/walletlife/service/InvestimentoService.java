@@ -42,17 +42,16 @@ public class InvestimentoService {
     }
 
     // atualização de um objeto
-    public void editarInvestimento(Integer id, Investimento investimento) {
+    public Investimento editarInvestimento(Integer id, Investimento investimento) {
         try {
             investimentoRepository.editar(id, investimento);
-            System.out.println();
-            System.out.println("INVESTIMENTO alterado com sucesso!");
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
+        return investimento;
     }
 
-    // leitura
+    // leitura por id
     public List<Investimento> listarById(Integer idUsuario) {
         try {
             return investimentoRepository.listarPorId(idUsuario);
@@ -62,4 +61,13 @@ public class InvestimentoService {
         return null;
     }
 
+    // leitura por id
+    public List<Investimento> listarTodos(Integer idUsuario) {
+        try {
+            return investimentoRepository.listar();
+        } catch (BancoDeDadosException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

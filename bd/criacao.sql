@@ -17,6 +17,7 @@ CREATE SEQUENCE SEQ_USUARIO
  NOCACHE
  NOCYCLE;
  
+
 -- Receita --
 CREATE TABLE RECEITA (
 	id_receita number(38, 0) NOT NULL,
