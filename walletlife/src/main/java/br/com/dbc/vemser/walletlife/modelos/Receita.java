@@ -2,10 +2,13 @@ package br.com.dbc.vemser.walletlife.modelos;
 
 import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
 
-public class Receita extends AbstractMovimentoDinheiro<TipoDespesaEReceita> {
+import javax.validation.constraints.NotEmpty;
 
+public class Receita extends AbstractMovimentoDinheiro<TipoDespesaEReceita> {
+    @NotEmpty
     private String banco;
 
+    @NotEmpty
     private String empresa;
 
     private int idFK;
