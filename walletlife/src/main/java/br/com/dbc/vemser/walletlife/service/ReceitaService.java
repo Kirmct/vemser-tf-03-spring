@@ -17,52 +17,33 @@ public class ReceitaService {
     }
 
     // criação de um objeto
-    public void adicionarReceita(Receita receita) {
-        try {
-            Receita receitaAdicionado = receitaRepository.adicionar(receita);
-            System.out.println("\nReceita adicinada com sucesso!" +
-                    "\nBanco: " + receitaAdicionado.getBanco() +
-                    "\nEmpresa:  " + receitaAdicionado.getEmpresa() +
-                    "\nValor: " + receitaAdicionado.getValor() +
-                    "\nDescrição: " + receitaAdicionado.getDescricao());
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e.getMessage());
-//            System.out.println("TRACE: ");
-//            e.printStackTrace();
-        }
+    public void adicionarReceita(Receita receita) throws BancoDeDadosException {
+        Receita receitaAdicionado = receitaRepository.adicionar(receita);
+        System.out.println("\nReceita adicinada com sucesso!" +
+                "\nBanco: " + receitaAdicionado.getBanco() +
+                "\nEmpresa:  " + receitaAdicionado.getEmpresa() +
+                "\nValor: " + receitaAdicionado.getValor() +
+                "\nDescrição: " + receitaAdicionado.getDescricao());
+
     }
 
     // remoção
-    public void removerReceita(Integer id) {
-        try {
-            boolean conseguiuRemover = receitaRepository.remover(id);
-            System.out.println();
-            System.out.println("Removido com sucesso!");
-        } catch (BancoDeDadosException e) {
-            e.printStackTrace();
-        }
+    public void removerReceita(Integer id) throws BancoDeDadosException {
+        boolean conseguiuRemover = receitaRepository.remover(id);
+        System.out.println();
+        System.out.println("Removido com sucesso!");
     }
 
     // atualização de um objeto
-    public Receita editarReceita(Integer id, Receita receita) {
-        try {
-            Receita conseguiuEditar = receitaRepository.editar(id, receita);
-            System.out.println();
-            System.out.println("Alteração realizada com sucesso!");
-            return conseguiuEditar;
-        } catch (BancoDeDadosException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Receita editarReceita(Integer id, Receita receita) throws BancoDeDadosException {
+        Receita conseguiuEditar = receitaRepository.editar(id, receita);
+        System.out.println();
+        System.out.println("Alteração realizada com sucesso!");
+        return conseguiuEditar;
     }
 
     // leitura
-    public List<Receita> listarById(Integer idUsuario) {
-        try {
-            return receitaRepository.listarPorId(idUsuario);
-        } catch (BancoDeDadosException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public List<Receita> listarById(Integer idUsuario) throws BancoDeDadosException {
+        return receitaRepository.listarPorId(idUsuario);
     }
 }
