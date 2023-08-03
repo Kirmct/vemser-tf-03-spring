@@ -25,8 +25,6 @@ public class UsuarioService {
             }
 
             Usuario pessoaAdicionada = usuarioRepository.adicionar(usuario);
-            System.out.println();
-            System.out.println("USUÁRIO criado com sucesso!");
 
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
@@ -38,34 +36,35 @@ public class UsuarioService {
     public void removerPessoa(Integer id) {
         try {
             boolean conseguiuRemover = usuarioRepository.remover(id);
-            System.out.println();
-            System.out.println("USUÁRIO removida com sucesso!");
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
     }
 
     // atualização de um objeto
-    public void editarPessoa(Integer id, Usuario usuario) {
+    public Usuario editarPessoa(Integer id, Usuario usuario) {
         try {
             Usuario conseguiuEditar = usuarioRepository.editar(id, usuario);
-            System.out.println();
-            System.out.println("USUÁRIO Alterada com sucesso!");
+            return conseguiuEditar;
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     // leitura
     public List<Usuario> listarPessoasPorId(Integer id) {
         try {
             List<Usuario> listar = usuarioRepository.listarPorId(id);
-            listar.forEach(System.out::println);
             return listar;
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Usuario> listar() throws BancoDeDadosException {
+        return usuarioRepository.listar();
     }
 
 }

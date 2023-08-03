@@ -66,7 +66,7 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
         try {
             con = ConexaoBancoDeDados.getConnection();
 
-            String sql = "DELETE FROM USUARIO WHERE ID_CONTATO = ?";
+            String sql = "DELETE FROM USUARIO WHERE iD_USUARIO = ?";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -97,22 +97,24 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
             con = ConexaoBancoDeDados.getConnection();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE PESSOA SET ");
+            sql.append("UPDATE USUARIO SET ");
             sql.append(" nome = ?,");
-            sql.append(" dataNascimento = ? ");
+            sql.append(" dataNascimento = ?, ");
             sql.append(" cpf = ?,");
             sql.append(" email = ?,");
-            sql.append(" senha = ?,");
-            sql.append("where id_usuario = ?");
+            sql.append(" senha = ?");
+            sql.append(" WHERE id_usuario = ?");
+
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
             stmt.setString(1, usuario.getNomeCompleto());
             stmt.setDate(2, Date.valueOf(usuario.getDataNascimento()));
+            System.out.println(usuario.getDataNascimento());
             stmt.setString(3, usuario.getCpf());
             stmt.setString(4, usuario.getEmail());
             stmt.setString(5, usuario.getSenha());
-            stmt.setInt(6, usuario.getId());
+            stmt.setInt(6, id);
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
@@ -137,7 +139,39 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
 
     @Override
     public List<Usuario> listar() throws BancoDeDadosException {
-        return null;
+        List<Usuario> usuarios = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+
+            String sql = "SELECT * FROM USUARIO";
+
+            // Executa-se a consulta
+            ResultSet res = stmt.executeQuery(sql);
+
+            while (res.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId(res.getInt("id_usuario"));
+                usuario.setNomeCompleto(res.getString("nome"));
+                usuario.setDataNascimento(res.getDate("dataNascimento").toLocalDate());
+                usuario.setCpf(res.getString("cpf"));
+                usuario.setEmail(res.getString("email"));
+                usuario.setSenha(res.getString("senha"));
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return usuarios;
     }
 
     @Override
