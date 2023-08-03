@@ -96,10 +96,12 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
     }
 
     @Override
-    public boolean editar(Despesa despesa) throws BancoDeDadosException {
+    public Despesa editar(Integer id, Despesa despesa) throws BancoDeDadosException {
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
+
+            Despesa despesaAtualizada = new Despesa();
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE DESPESA SET ");
@@ -113,11 +115,21 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             stmt.setString(2, despesa.getDescricao());
             stmt.setInt(3, despesa.getIdFK());
 
+            ResultSet res = stmt.executeQuery();
+            while (res.next()){
+                despesaAtualizada.setId(res.getInt("id_despesa"));
+                despesaAtualizada.setTipo(TipoDespesaEReceita.valueOf(res.getString("Tipo")));
+                despesaAtualizada.setValor(res.getDouble("valor"));
+                despesaAtualizada.setDecricao(res.getString("descricao"));
+                despesaAtualizada.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
+                despesaAtualizada.setIdFK(res.getInt("id_usuario"));
 
-            // Executa-se a consulta
-            int res = stmt.executeUpdate();
+            }
 
-            return res > 0;
+
+
+
+            return despesaAtualizada;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -132,7 +144,12 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
     }
 
     @Override
-    public List<Despesa> listar(Integer idUsuario) throws BancoDeDadosException {
+    public List<Despesa> listar() throws BancoDeDadosException {
+        return null;
+    }
+
+    @Override
+    public List<Despesa> listarPorId(Integer idUsuario) throws BancoDeDadosException {
         List<Despesa> despesas = new ArrayList<>();
         Connection con = null;
         try {

@@ -44,7 +44,7 @@ public class DespesaService {
     // atualização de um objeto
     public void editarDespesa(Integer id, Despesa despesa) {
         try {
-            despesaRepository.editar(despesa);
+            despesaRepository.editar(id, despesa);
             System.out.println();
             System.out.println("DESPESA alterada com sucesso!");
         } catch (BancoDeDadosException e) {
