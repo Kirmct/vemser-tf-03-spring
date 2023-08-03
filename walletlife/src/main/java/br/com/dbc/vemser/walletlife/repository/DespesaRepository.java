@@ -156,7 +156,11 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             while (res.next()) {
                 Despesa despesa = new Despesa();
                 despesa.setId(res.getInt("id_despesa"));
-                despesa.setTipo(TipoDespesaEReceita.valueOf(res.getString("Tipo")));
+
+                String tipoDespesa = res.getString("Tipo").toUpperCase();
+                String despesaCerta = tipoDespesa.replaceAll("\u00C1", "A");
+                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaCerta));
+
                 despesa.setValor(res.getDouble("valor"));
                 despesa.setDecricao(res.getString("descricao"));
                 despesa.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
