@@ -1,13 +1,19 @@
 package br.com.dbc.vemser.walletlife.modelos;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class Investimento extends AbstractMovimentoDinheiro<String> {
 
+    @NotEmpty
     protected String corretora;
 
+    @NotNull
     private LocalDate dataInicio;
 
+    @NotNull
     private int idFK;
 
     public Investimento() {
