@@ -2,16 +2,19 @@ package br.com.dbc.vemser.walletlife.service;
 
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Despesa;
+import br.com.dbc.vemser.walletlife.modelos.Receita;
 import br.com.dbc.vemser.walletlife.repository.DespesaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class DespesaService {
 
     private DespesaRepository despesaRepository;
 
-    public DespesaService() {
-        despesaRepository = new DespesaRepository();
+    public DespesaService(DespesaRepository despesaRepository) {
+        this.despesaRepository = despesaRepository;
     }
 
     // criação de um objeto
@@ -42,13 +45,15 @@ public class DespesaService {
     }
 
     // atualização de um objeto
-    public void editarDespesa(Integer id, Despesa despesa) {
+    public Despesa editarDespesa(Integer id, Despesa despesa) {
         try {
-            despesaRepository.editar(id, despesa);
+            Despesa despesaAtualizada =despesaRepository.editar(id, despesa);
             System.out.println();
             System.out.println("DESPESA alterada com sucesso!");
+            return despesaAtualizada;
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
+            return null;
         }
     }
 

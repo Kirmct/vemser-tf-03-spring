@@ -3,13 +3,14 @@ package br.com.dbc.vemser.walletlife.repository;
 import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Despesa;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class DespesaRepository implements Repositorio<Integer, Despesa> {
-
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -21,7 +22,6 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             if (res.next()) {
                 return res.getInt("mysequence");
             }
-
             return null;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
