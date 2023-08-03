@@ -18,26 +18,26 @@ public class InvestimentoController {
         this.investimentoService = investimentoService;
     }
 
-    @GetMapping("/{idUsuario}") // GET localhost:8080/investimentos
-    public List<Investimento> list() {
-        return investimentoService.listarById(1);
+    @GetMapping("/{idUsuario}") // GET localhost:8080/investimentos/1
+    public List<Investimento> list(@PathVariable("idUsuario") Integer id) {
+        return investimentoService.listarById(id);
     }
 
 
-    @PostMapping // POST localhost:8080/contato
+    @PostMapping // POST localhost:8080/investimentos
     public Investimento create(@RequestBody Investimento investimento) {
         return investimentoService.adicionarInvestimento(investimento);
     }
 
-//    @PutMapping("/{idContato}") // PUT localhost:8080/contato/1
-//    public Contato update(@PathVariable("idContato") Integer id,
-//                          @RequestBody Contato contatoAtualizar) throws Exception {
-//
-//        return contatoService.update(id, contatoAtualizar);
-//    }
-//
-//    @DeleteMapping("/{idContato}") // DELETE localhost:8080/contato/1
-//    public void delete(@PathVariable("idContato") Integer id) throws Exception {
-//        contatoService.delete(id);
-//    }
+    @PutMapping("/{idInvestimento}") // PUT localhost:8080/investimentos/1
+    public Investimento update(@PathVariable("idInvestimento") Integer id,
+                          @RequestBody Investimento investimentoAutualizar) throws Exception {
+
+        return investimentoService.editarInvestimento(id, investimentoAutualizar);
+    }
+
+    @DeleteMapping("/{idInvestimento}") // DELETE localhost:8080/investimentos/1
+    public void delete(@PathVariable("idInvestimento") Integer id) throws Exception {
+        investimentoService.removerInvestimento(id);
+    }
 }
