@@ -1,7 +1,9 @@
 package br.com.dbc.vemser.walletlife.service;
 
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
+import br.com.dbc.vemser.walletlife.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.walletlife.modelos.Investimento;
+import br.com.dbc.vemser.walletlife.modelos.Usuario;
 import br.com.dbc.vemser.walletlife.repository.InvestimentoRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,23 +12,31 @@ import java.util.List;
 @Service
 public class InvestimentoService {
     private InvestimentoRepository investimentoRepository;
+    private UsuarioService usuarioService;
 
-    public InvestimentoService(InvestimentoRepository investimentoRepository) {
+    public InvestimentoService(InvestimentoRepository investimentoRepository, UsuarioService usuarioService) {
         this.investimentoRepository = investimentoRepository;
+        this.usuarioService = usuarioService;
     }
 
     // criação de um objeto
-    public Investimento adicionarInvestimento(Investimento investimento) {
+    public Investimento adicionarInvestimento(Investimento investimento) throws RegraDeNegocioException {
         try {
-            Investimento investimentoAdicionado = investimentoRepository.adicionar(investimento);
-            System.out.println();
-            System.out.println("INVESTIMENTO adicionado com sucesso!");
+            List<Usuario> usuarioById = usuarioService.listarPessoasPorId(investimento.getIdFK());
+
+            if (!usuarioById.isEmpty()){
+                Investimento investimentoAdicionado = investimentoRepository.adicionar(investimento);
+
+                System.out.println();
+                System.out.println("INVESTIMENTO adicionado com sucesso!");
+                return investimento;
+            }else {
+                throw new RegraDeNegocioException("Usuario não encontrado");
+            }
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e.getMessage());
         }
-        return investimento;
+        return null;
     }
 
     // remoção
@@ -34,7 +44,6 @@ public class InvestimentoService {
         try {
             investimentoRepository.remover(id);
             System.out.println();
-
             System.out.println("INVESTIMENTO removido com sucesso!");
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
