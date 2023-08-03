@@ -2,11 +2,13 @@ package br.com.dbc.vemser.walletlife.repository;
 
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Receita;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ReceitaRepository implements Repositorio<Integer, Receita> {
 
     @Override
@@ -106,13 +108,13 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
             sql.append("UPDATE RECEITA SET ");
             sql.append(" valor = ?, ");
             sql.append(" descricao = ? ");
-            sql.append(" WHERE ID_USUARIO = ?");
+            sql.append(" WHERE ID_RECEITA = ?");
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
             stmt.setDouble(1, receita.getValor());
             stmt.setString(2, receita.getDescricao());
-            stmt.setInt(3, receita.getIdFK());
+            stmt.setInt(3, id);
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();

@@ -3,15 +3,17 @@ package br.com.dbc.vemser.walletlife.service;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Receita;
 import br.com.dbc.vemser.walletlife.repository.ReceitaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ReceitaService {
 
-    private ReceitaRepository receitaRepository;
+    private final ReceitaRepository receitaRepository;
 
-    public ReceitaService() {
-        receitaRepository = new ReceitaRepository();
+    public ReceitaService(ReceitaRepository receitaRepository) {
+        this.receitaRepository = receitaRepository;
     }
 
     // criação de um objeto
@@ -42,13 +44,15 @@ public class ReceitaService {
     }
 
     // atualização de um objeto
-    public void editarReceita(Integer id, Receita receita) {
+    public Receita editarReceita(Integer id, Receita receita) {
         try {
             Receita conseguiuEditar = receitaRepository.editar(id, receita);
             System.out.println();
             System.out.println("Alteração realizada com sucesso!");
+            return conseguiuEditar;
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
