@@ -3,12 +3,18 @@ package br.com.dbc.vemser.walletlife.controllers;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Usuario;
 import br.com.dbc.vemser.walletlife.service.UsuarioService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
 @RequestMapping("/usuario")
+@Validated
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
@@ -16,28 +22,31 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
     @GetMapping
-    public List<Usuario> listar() throws BancoDeDadosException {
-        return usuarioService.listar();
+    public ResponseEntity<List<Usuario>> listar() throws BancoDeDadosException {
+        return new ResponseEntity<>(usuarioService.listar(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public Usuario listarPessoasPorId(@PathVariable Integer id){
-        return usuarioService.listarPessoasPorId(id);
+    @GetMapping("/{idPessoa}")
+    public ResponseEntity<Usuario> listarPessoasPorId(@PathVariable("idPessoa") @Positive Integer idPessoa){
+        return new ResponseEntity<>(usuarioService.listarPessoasPorId(idPessoa), HttpStatus.OK);
     }
 
     @PostMapping
-    public void adicionarUsuario(@RequestBody Usuario usuario){
-        usuarioService.adicionarUsuario(usuario);
+    public ResponseEntity<Usuario> adicionarUsuario(@RequestBody @Valid Usuario usuario){
+        return new ResponseEntity<>(usuarioService.adicionarUsuario(usuario), HttpStatus.OK);
     }
 
     @PutMapping("/{idUsuario}")
-    public Usuario editarPessoa(@PathVariable Integer idUsuario, @RequestBody Usuario usuario){
-        return usuarioService.editarPessoa(idUsuario, usuario);
+    public ResponseEntity<Usuario> editarPessoa(@PathVariable @Positive Integer idUsuario,
+                                @RequestBody @Valid Usuario usuario){
+        Usuario usuarioAtualizado = usuarioService.editarPessoa(idUsuario, usuario);
+        return new ResponseEntity<>(usuarioAtualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idUsuario}")
-    public void remover(@PathVariable Integer idUsuario){
+    public ResponseEntity<Void> remover(@PathVariable Integer idUsuario){
         usuarioService.removerPessoa(idUsuario);
+        return ResponseEntity.ok().build();
     }
 
 }
