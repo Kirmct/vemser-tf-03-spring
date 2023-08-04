@@ -175,7 +175,7 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
     }
 
     @Override
-    public Usuario listarPorId(Integer idUsuario) throws BancoDeDadosException {
+    public Usuario buscarPorId(Integer idUsuario) throws BancoDeDadosException {
         Usuario usuario = new Usuario();
         Connection con = null;
         try {

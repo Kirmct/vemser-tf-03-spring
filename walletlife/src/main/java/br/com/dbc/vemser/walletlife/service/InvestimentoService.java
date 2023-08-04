@@ -27,8 +27,6 @@ public class InvestimentoService {
             if (usuarioById != null){
                 Investimento investimentoAdicionado = investimentoRepository.adicionar(investimento);
 
-                System.out.println();
-                System.out.println("INVESTIMENTO adicionado com sucesso!");
                 return investimento;
             }else {
                 throw new RegraDeNegocioException("Usuario não encontrado");
@@ -43,37 +41,59 @@ public class InvestimentoService {
     public void removerInvestimento(Integer id) {
         try {
             investimentoRepository.remover(id);
-            System.out.println();
-            System.out.println("INVESTIMENTO removido com sucesso!");
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
     }
 
     // atualização de um objeto
-    public Investimento editarInvestimento(Integer id, Investimento investimento) {
+    public Investimento editarInvestimento(Integer id, Investimento investimento) throws RegraDeNegocioException  {
         try {
-            investimentoRepository.editar(id, investimento);
-        } catch (BancoDeDadosException e) {
-            e.printStackTrace();
-        }
-        return investimento;
-    }
+            Usuario usuarioById = usuarioService.listarPessoasPorId(investimento.getIdFK());
 
-    // leitura por id
-    public Investimento listarById(Integer idUsuario) {
-        try {
-            return investimentoRepository.listarPorId(idUsuario);
+            if (usuarioById != null){
+                Investimento investimentoAtualizado = investimentoRepository.editar(id, investimento);
+
+                return investimentoAtualizado;
+            }else {
+                throw new RegraDeNegocioException("Usuario não encontrado");
+            }
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    // leitura por id
-    public List<Investimento> listarTodos(Integer idUsuario) {
+    // leitura por id do investimento
+    public Investimento buscarById(Integer idInvestimento) {
+        try {
+            return investimentoRepository.buscarPorId(idInvestimento);
+        } catch (BancoDeDadosException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // leitura geral
+    public List<Investimento> listarTodos() {
         try {
             return investimentoRepository.listar();
+        } catch (BancoDeDadosException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Leitura por usuario
+    public List<Investimento> buscarByIdUsuario(Integer idUsuario) throws RegraDeNegocioException   {
+        try {
+            Usuario usuarioById = usuarioService.listarPessoasPorId(idUsuario);
+
+            if (usuarioById != null){
+                return investimentoRepository.listarPorIdUsuario(idUsuario);
+            }else {
+                throw new RegraDeNegocioException("Usuario não encontrado");
+            }
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
