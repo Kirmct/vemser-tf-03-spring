@@ -138,9 +138,9 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
 
 
     @Override
-    public List<Receita> listarPorId(Integer id) throws BancoDeDadosException {
+    public Receita listarPorId(Integer id) throws BancoDeDadosException {
 
-        List<Receita> receitas = new ArrayList<>();
+        Receita receita = new Receita();
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -152,14 +152,13 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
             ResultSet res = stmt.executeQuery(sql);
 
             while (res.next()) {
-                Receita receita = new Receita();
+
                 receita.setId(res.getInt("id_receita"));
                 receita.setBanco(res.getString("banco"));
                 receita.setEmpresa(res.getString("empresa"));
                 receita.setValor(res.getDouble("valor"));
                 receita.setDescricao(res.getString("descricao"));
                 receita.setIdFK(res.getInt("id_usuario"));
-                receitas.add(receita);
             }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
@@ -172,6 +171,6 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
                 e.printStackTrace();
             }
         }
-        return receitas;
+        return receita;
     }
 }

@@ -175,8 +175,8 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
     }
 
     @Override
-    public List<Usuario> listarPorId(Integer idUsuario) throws BancoDeDadosException {
-        List<Usuario> usuarios = new ArrayList<>();
+    public Usuario listarPorId(Integer idUsuario) throws BancoDeDadosException {
+        Usuario usuario = new Usuario();
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -188,14 +188,13 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
             ResultSet res = stmt.executeQuery(sql);
 
             while (res.next()) {
-                Usuario usuario = new Usuario();
                 usuario.setId(res.getInt("id_usuario"));
                 usuario.setNomeCompleto(res.getString("nome"));
                 usuario.setDataNascimento(res.getDate("dataNascimento").toLocalDate());
                 usuario.setCpf(res.getString("cpf"));
                 usuario.setEmail(res.getString("email"));
                 usuario.setSenha(res.getString("senha"));
-                usuarios.add(usuario);
+
             }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
@@ -208,6 +207,6 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
                 e.printStackTrace();
             }
         }
-        return usuarios;
+        return usuario;
     }
 }

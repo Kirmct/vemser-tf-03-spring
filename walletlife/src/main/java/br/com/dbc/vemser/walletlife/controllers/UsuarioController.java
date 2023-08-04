@@ -21,7 +21,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public List<Usuario> listarPessoasPorId(@PathVariable Integer id){
+    public Usuario listarPessoasPorId(@PathVariable Integer id){
         return usuarioService.listarPessoasPorId(id);
     }
 

@@ -22,9 +22,9 @@ public class InvestimentoService {
     // criação de um objeto
     public Investimento adicionarInvestimento(Investimento investimento) throws RegraDeNegocioException {
         try {
-            List<Usuario> usuarioById = usuarioService.listarPessoasPorId(investimento.getIdFK());
+            Usuario usuarioById = usuarioService.listarPessoasPorId(investimento.getIdFK());
 
-            if (!usuarioById.isEmpty()){
+            if (usuarioById != null){
                 Investimento investimentoAdicionado = investimentoRepository.adicionar(investimento);
 
                 System.out.println();
@@ -61,7 +61,7 @@ public class InvestimentoService {
     }
 
     // leitura por id
-    public List<Investimento> listarById(Integer idUsuario) {
+    public Investimento listarById(Integer idUsuario) {
         try {
             return investimentoRepository.listarPorId(idUsuario);
         } catch (BancoDeDadosException e) {

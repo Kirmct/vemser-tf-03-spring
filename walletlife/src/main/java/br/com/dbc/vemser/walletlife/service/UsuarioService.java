@@ -53,9 +53,9 @@ public class UsuarioService {
     }
 
     // leitura
-    public List<Usuario> listarPessoasPorId(Integer id) {
+    public Usuario listarPessoasPorId(Integer id) {
         try {
-            List<Usuario> listar = usuarioRepository.listarPorId(id);
+            Usuario listar = usuarioRepository.listarPorId(id);
             return listar;
         } catch (BancoDeDadosException e) {
             e.printStackTrace();

@@ -22,7 +22,7 @@ public class ReceitaController {
     }
 
     @GetMapping("/{id}")
-    public List<Receita> listarReceitasPorUsuario(@PathVariable Integer id) throws BancoDeDadosException {
+    public Receita listarReceitasPorUsuario(@PathVariable Integer id) throws BancoDeDadosException {
         return receitaService.listarById(id);
     }
 

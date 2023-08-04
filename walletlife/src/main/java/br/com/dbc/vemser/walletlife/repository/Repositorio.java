@@ -18,6 +18,6 @@ public interface Repositorio<CHAVE, OBJETO> {
 
     List<OBJETO> listar() throws BancoDeDadosException;
 
-    List<OBJETO> listarPorId(CHAVE id) throws BancoDeDadosException;
+    OBJETO listarPorId(CHAVE id) throws BancoDeDadosException;
 
 }
