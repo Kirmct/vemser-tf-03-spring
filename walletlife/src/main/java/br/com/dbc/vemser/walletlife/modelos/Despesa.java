@@ -2,10 +2,12 @@ package br.com.dbc.vemser.walletlife.modelos;
 
 import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 public class Despesa extends AbstractMovimentoDinheiro<TipoDespesaEReceita> {
 
+    @NotEmpty(message = "Data de pagamento não pode ser vazia ou nula")
     private LocalDate dataPagamento;
 
     private int idFK;
