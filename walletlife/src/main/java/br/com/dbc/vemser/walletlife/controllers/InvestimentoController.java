@@ -24,7 +24,7 @@ public class InvestimentoController {
     }
 
     @GetMapping("/{idUsuario}") // GET localhost:8080/investimentos/1
-    public List<Investimento> list(@PathVariable("idUsuario") @Positive Integer id) {
+    public Investimento list(@PathVariable("idUsuario") @Positive Integer id) {
         return investimentoService.listarById(id);
     }
 

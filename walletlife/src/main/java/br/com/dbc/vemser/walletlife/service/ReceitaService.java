@@ -43,7 +43,7 @@ public class ReceitaService {
     }
 
     // leitura
-    public List<Receita> listarById(Integer idUsuario) throws BancoDeDadosException {
+    public Receita listarById(Integer idUsuario) throws BancoDeDadosException {
         return receitaRepository.listarPorId(idUsuario);
     }
 }

@@ -58,7 +58,7 @@ public class DespesaService {
     }
 
     // leitura
-    public List<Despesa> listarDespesa(Integer idUsuario) {
+    public Despesa listarDespesa(Integer idUsuario) {
         try {
             return despesaRepository.listarPorId(idUsuario);
         } catch (BancoDeDadosException e) {

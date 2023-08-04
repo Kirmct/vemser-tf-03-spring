@@ -16,7 +16,7 @@ public class DespesaController {
     }
 
     @GetMapping("/{id}") //GET localhost:8080/despesa/1
-    public List<Despesa> listarDespesas(@PathVariable Integer id){
+    public Despesa listarDespesas(@PathVariable Integer id){
         return despesaService.listarDespesa(id);
 
     }

@@ -174,8 +174,8 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
     }
 
     @Override
-    public List<Investimento> listarPorId(Integer idUsuario) throws BancoDeDadosException {
-        List<Investimento> investimentos = new ArrayList<>();
+    public Investimento listarPorId(Integer idUsuario) throws BancoDeDadosException {
+        Investimento investimento = new Investimento();
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -187,7 +187,7 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
             ResultSet res = stmt.executeQuery(sql);
 
             while (res.next()) {
-                Investimento investimento = new Investimento();
+
                 investimento.setId(res.getInt("id_investimento"));
                 investimento.setCorretora(res.getString("corretora"));
                 investimento.setTipo(res.getString("tipo"));
@@ -195,7 +195,7 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
                 investimento.setDataInicio(res.getDate("data_inicial").toLocalDate());
                 investimento.setDescricao(res.getString("descricao"));
                 investimento.setIdFK(res.getInt("id_usuario"));
-                investimentos.add(investimento);
+
             }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
@@ -208,7 +208,7 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
                 e.printStackTrace();
             }
         }
-        return investimentos;
+        return investimento;
     }
 
 }

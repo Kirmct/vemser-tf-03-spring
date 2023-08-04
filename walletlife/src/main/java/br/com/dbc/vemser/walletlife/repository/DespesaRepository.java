@@ -141,8 +141,8 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
     }
 
     @Override
-    public List<Despesa> listarPorId(Integer idUsuario) throws BancoDeDadosException {
-        List<Despesa> despesas = new ArrayList<>();
+    public Despesa listarPorId(Integer idUsuario) throws BancoDeDadosException {
+        Despesa despesas = new Despesa();;
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -154,18 +154,17 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             ResultSet res = stmt.executeQuery(sql);
 
             while (res.next()) {
-                Despesa despesa = new Despesa();
-                despesa.setId(res.getInt("id_despesa"));
+                despesas.setId(res.getInt("id_despesa"));
 
                 String tipoDespesa = res.getString("Tipo").toUpperCase();
                 String despesaCerta = tipoDespesa.replaceAll("\u00C1", "A");
-                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaCerta));
+                despesas.setTipo(TipoDespesaEReceita.valueOf(despesaCerta));
 
-                despesa.setValor(res.getDouble("valor"));
-                despesa.setDecricao(res.getString("descricao"));
-                despesa.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
-                despesa.setIdFK(res.getInt("id_usuario"));
-                despesas.add(despesa);
+                despesas.setValor(res.getDouble("valor"));
+                despesas.setDecricao(res.getString("descricao"));
+                despesas.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
+                despesas.setIdFK(res.getInt("id_usuario"));
+
             }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
