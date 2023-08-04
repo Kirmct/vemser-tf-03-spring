@@ -2,11 +2,8 @@ package br.com.dbc.vemser.walletlife.service;
 
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Despesa;
-import br.com.dbc.vemser.walletlife.modelos.Receita;
 import br.com.dbc.vemser.walletlife.repository.DespesaRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class DespesaService {
@@ -60,7 +57,7 @@ public class DespesaService {
     // leitura
     public Despesa listarDespesa(Integer idUsuario) {
         try {
-            return despesaRepository.listarPorId(idUsuario);
+            return despesaRepository.buscarPorId(idUsuario);
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }

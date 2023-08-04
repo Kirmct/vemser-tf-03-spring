@@ -6,7 +6,6 @@ import br.com.dbc.vemser.walletlife.modelos.Usuario;
 import br.com.dbc.vemser.walletlife.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -40,7 +39,7 @@ public class UsuarioService {
 
     public boolean removerPessoa(Integer id) {
         try {
-            Usuario usuario = usuarioRepository.listarPorId(id);
+            Usuario usuario = usuarioRepository.buscarPorId(id);
             if (usuario.getId() == null){
                 throw new RegraDeNegocioException("Usuário não encontrado");
             }
@@ -57,7 +56,7 @@ public class UsuarioService {
     // atualização de um objeto
     public Usuario editarPessoa(Integer id, Usuario usuario) {
         try {
-            Usuario usuarioExiste = usuarioRepository.listarPorId(id);
+            Usuario usuarioExiste = usuarioRepository.buscarPorId(id);
             if (usuarioExiste.getId() == null){
                 throw new RegraDeNegocioException("Usuário não encontrado");
             }
@@ -74,7 +73,7 @@ public class UsuarioService {
     // leitura
     public Usuario listarPessoasPorId(Integer id) {
         try {
-            Usuario listar = usuarioRepository.listarPorId(id);
+            Usuario listar = usuarioRepository.buscarPorId(id);
             if(listar.getId() == null){
                 throw new RegraDeNegocioException("Usuário não encontrado");
             }

@@ -5,8 +5,6 @@ import br.com.dbc.vemser.walletlife.modelos.Receita;
 import br.com.dbc.vemser.walletlife.repository.ReceitaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ReceitaService {
 
@@ -44,6 +42,6 @@ public class ReceitaService {
 
     // leitura
     public Receita listarById(Integer idUsuario) throws BancoDeDadosException {
-        return receitaRepository.listarPorId(idUsuario);
+        return receitaRepository.buscarPorId(idUsuario);
     }
 }

@@ -1,11 +1,21 @@
 package br.com.dbc.vemser.walletlife.modelos;
 
+import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-public class Investimento extends AbstractMovimentoDinheiro<String> {
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Investimento extends AbstractMovimentoDinheiro<TipoDespesaEReceita> {
 
     @NotEmpty
     protected String corretora;
@@ -15,46 +25,4 @@ public class Investimento extends AbstractMovimentoDinheiro<String> {
 
     @NotNull
     private int idFK;
-
-    public Investimento() {
-    }
-
-    public Investimento(double valor, String descricao, String corretora, LocalDate dataInicio, int idFK) {
-        super("Investimento", valor, descricao);
-        this.corretora = corretora;
-        this.dataInicio = dataInicio;
-        this.idFK = idFK;
-    }
-
-    public String getCorretora() {
-        return corretora;
-    }
-
-    public void setCorretora(String corretora) {
-        this.corretora = corretora;
-    }
-
-    public LocalDate getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public int getIdFK() {
-        return idFK;
-    }
-
-    public void setIdFK(int idFK) {
-        this.idFK = idFK;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("""
-                %s
-                Corretora: %s
-                Data início: %s""", super.toString(), getCorretora(), getDataInicio());
-    }
 }

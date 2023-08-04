@@ -141,7 +141,7 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
     }
 
     @Override
-    public Despesa listarPorId(Integer idUsuario) throws BancoDeDadosException {
+    public Despesa buscarPorId(Integer idUsuario) throws BancoDeDadosException {
         Despesa despesas = new Despesa();;
         Connection con = null;
         try {
@@ -161,7 +161,7 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
                 despesas.setTipo(TipoDespesaEReceita.valueOf(despesaCerta));
 
                 despesas.setValor(res.getDouble("valor"));
-                despesas.setDecricao(res.getString("descricao"));
+                despesas.setDescricao(res.getString("descricao"));
                 despesas.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
                 despesas.setIdFK(res.getInt("id_usuario"));
 

@@ -23,9 +23,14 @@ public class InvestimentoController {
         this.investimentoService = investimentoService;
     }
 
-    @GetMapping("/{idUsuario}") // GET localhost:8080/investimentos/1
-    public Investimento list(@PathVariable("idUsuario") @Positive Integer id) {
-        return investimentoService.listarById(id);
+    @GetMapping("/{idInvestimento}") // GET localhost:8080/investimentos/1
+    public Investimento buscarInvestimento(@PathVariable("idInvestimento") @Positive Integer id) {
+        return investimentoService.buscarById(id);
+    }
+
+    @GetMapping("/usuario/{idUsuario}") // GET localhost:8080/investimentos/1
+    public List<Investimento> listInvestimentosUsuario(@PathVariable("idUsuario") @Positive Integer id) throws RegraDeNegocioException {
+        return investimentoService.buscarByIdUsuario(id);
     }
 
 
@@ -36,7 +41,7 @@ public class InvestimentoController {
 
     @PutMapping("/{idInvestimento}") // PUT localhost:8080/investimentos/1
     public Investimento update(@PathVariable("idInvestimento") @Valid Integer id,
-                          @RequestBody Investimento investimentoAutualizar) throws Exception {
+                          @RequestBody Investimento investimentoAutualizar) throws RegraDeNegocioException {
 
         return investimentoService.editarInvestimento(id, investimentoAutualizar);
     }

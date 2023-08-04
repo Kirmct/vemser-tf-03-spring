@@ -138,7 +138,7 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
 
 
     @Override
-    public Receita listarPorId(Integer id) throws BancoDeDadosException {
+    public Receita buscarPorId(Integer id) throws BancoDeDadosException {
 
         Receita receita = new Receita();
         Connection con = null;
