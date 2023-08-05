@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -25,4 +24,7 @@ public class Investimento extends AbstractMovimentoDinheiro<TipoDespesaEReceita>
 
     @NotNull
     private int idFK;
+
+    public Investimento(TipoDespesaEReceita tipo, Double valor, String descricao) {
+    }
 }
