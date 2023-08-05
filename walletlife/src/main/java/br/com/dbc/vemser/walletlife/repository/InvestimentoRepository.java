@@ -52,7 +52,9 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
 
             int res = stmt.executeUpdate();
 
-            return investimento;
+            if (res > 0){
+                return investimento;
+            }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -64,6 +66,7 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
                 e.printStackTrace();
             }
         }
+        return null;
     }
 
     @Override
