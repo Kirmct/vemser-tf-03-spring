@@ -2,6 +2,7 @@ package br.com.dbc.vemser.walletlife.service;
 
 import br.com.dbc.vemser.walletlife.dto.InvestimentoCreateDTO;
 import br.com.dbc.vemser.walletlife.dto.InvestimentoDTO;
+import br.com.dbc.vemser.walletlife.dto.UsuarioDTO;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.walletlife.modelos.Investimento;
@@ -25,9 +26,10 @@ public class InvestimentoService {
     // criação de um objeto
     public InvestimentoDTO adicionarInvestimento(InvestimentoCreateDTO investimento) throws RegraDeNegocioException {
         try {
-            Usuario usuarioById = usuarioService.listarPessoasPorId(investimento.getIdFK());
+            UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(investimento.getIdFK());
+            Usuario usuarioConvertido = objectMapper.convertValue(usuarioById, Usuario.class);
 
-            if (usuarioById != null){
+            if (usuarioConvertido != null){
                 Investimento entity = objectMapper.convertValue(investimento, Investimento.class);
 
                 entity.setValor(investimento.getValor());
@@ -66,9 +68,10 @@ public class InvestimentoService {
     // atualização de um objeto
     public InvestimentoDTO editarInvestimento(Integer id, InvestimentoCreateDTO investimento) throws RegraDeNegocioException  {
         try {
-            Usuario usuarioById = usuarioService.listarPessoasPorId(investimento.getIdFK());
+            UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(investimento.getIdFK());
+            Usuario usuarioConvertid = objectMapper.convertValue(usuarioById, Usuario.class);
 
-            if (usuarioById != null){
+            if (usuarioConvertid != null){
                 Investimento entity = objectMapper.convertValue(investimento, Investimento.class);
 
                 entity.setValor(investimento.getValor());
@@ -121,7 +124,9 @@ public class InvestimentoService {
     // Leitura por usuario
     public List<InvestimentoDTO> buscarByIdUsuario(Integer idUsuario) throws RegraDeNegocioException   {
         try {
-            Usuario usuarioById = usuarioService.listarPessoasPorId(idUsuario);
+
+            UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(idUsuario);
+            Usuario usuarioConvertido = objectMapper.convertValue(usuarioById, Usuario.class);
 
             if (usuarioById != null){
                 List<Investimento> investimento = investimentoRepository.listarPorIdUsuario(idUsuario);

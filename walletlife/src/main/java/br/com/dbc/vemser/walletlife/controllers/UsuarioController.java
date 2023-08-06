@@ -1,8 +1,11 @@
 package br.com.dbc.vemser.walletlife.controllers;
 
+import br.com.dbc.vemser.walletlife.dto.UsuarioCreateDTO;
+import br.com.dbc.vemser.walletlife.dto.UsuarioDTO;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Usuario;
 import br.com.dbc.vemser.walletlife.service.UsuarioService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuario")
 @Validated
+@Slf4j
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
@@ -22,29 +26,34 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
     @GetMapping
-    public ResponseEntity<List<Usuario>> listar() throws BancoDeDadosException {
+    public ResponseEntity<List<UsuarioDTO>> listar() throws BancoDeDadosException {
+        log.info("Usuário: listar todos");
         return new ResponseEntity<>(usuarioService.listar(), HttpStatus.OK);
     }
 
     @GetMapping("/{idPessoa}")
-    public ResponseEntity<Usuario> listarPessoasPorId(@PathVariable("idPessoa") @Positive Integer idPessoa){
+    public ResponseEntity<UsuarioDTO> listarPessoasPorId(@PathVariable("idPessoa") @Positive Integer idPessoa){
+        log.info("Usuário: listar por Id de pessoa");
         return new ResponseEntity<>(usuarioService.listarPessoasPorId(idPessoa), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> adicionarUsuario(@RequestBody @Valid Usuario usuario){
+    public ResponseEntity<UsuarioDTO> adicionarUsuario(@RequestBody @Valid UsuarioCreateDTO usuario){
+        log.info("Usuário: inserir novo");
         return new ResponseEntity<>(usuarioService.adicionarUsuario(usuario), HttpStatus.OK);
     }
 
     @PutMapping("/{idUsuario}")
-    public ResponseEntity<Usuario> editarPessoa(@PathVariable @Positive Integer idUsuario,
-                                @RequestBody @Valid Usuario usuario){
-        Usuario usuarioAtualizado = usuarioService.editarPessoa(idUsuario, usuario);
+    public ResponseEntity<UsuarioDTO> editarPessoa(@PathVariable @Positive Integer idUsuario,
+                                @RequestBody @Valid UsuarioCreateDTO usuario){
+        log.info("Usuário: editar");
+        UsuarioDTO usuarioAtualizado = usuarioService.editarPessoa(idUsuario, usuario);
         return new ResponseEntity<>(usuarioAtualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idUsuario}")
     public ResponseEntity<Void> remover(@PathVariable Integer idUsuario){
+        log.info("Usuário: deletar por id");
         usuarioService.removerPessoa(idUsuario);
         return ResponseEntity.ok().build();
     }

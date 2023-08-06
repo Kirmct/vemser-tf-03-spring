@@ -2,6 +2,7 @@ package br.com.dbc.vemser.walletlife.service;
 
 import br.com.dbc.vemser.walletlife.dto.ReceitaCreateDTO;
 import br.com.dbc.vemser.walletlife.dto.ReceitaDTO;
+import br.com.dbc.vemser.walletlife.dto.UsuarioDTO;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.walletlife.modelos.Investimento;
@@ -25,10 +26,10 @@ public class ReceitaService {
     // criação
     public ReceitaDTO adicionarReceita(ReceitaCreateDTO receita) throws RegraDeNegocioException {
         try {
-            Usuario usuarioById = usuarioService.listarPessoasPorId(receita.getIdFK());
-            System.out.println(usuarioById);
+            UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(receita.getIdFK());
+            Usuario usuarioConvertido = objectMapper.convertValue(usuarioById, Usuario.class);
 
-            if (usuarioById != null) {
+            if (usuarioConvertido != null) {
                 Receita entity = objectMapper.convertValue(receita, Receita.class);
 
                 Receita receitaAdicionada = receitaRepository.adicionar(entity);
@@ -97,9 +98,10 @@ public class ReceitaService {
     // Leitura por usuario
     public List<Receita> buscarByIdUsuario(Integer idUsuario) throws RegraDeNegocioException {
         try {
-            Usuario usuarioById = usuarioService.listarPessoasPorId(idUsuario);
+            UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(idUsuario);
+            Usuario usuarioConvertido = objectMapper.convertValue(usuarioById, Usuario.class);
 
-            if (usuarioById != null) {
+            if (usuarioConvertido != null) {
                 return receitaRepository.listarPorIdUsuario(idUsuario);
             } else {
                 throw new RegraDeNegocioException("Usuario não encontrado");
