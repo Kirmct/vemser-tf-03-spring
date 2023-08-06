@@ -1,4 +1,4 @@
-package br.com.dbc.vemser.walletlife.modelos;
+package br.com.dbc.vemser.walletlife.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,12 +11,9 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
-
-    private Integer id;
-
+@NoArgsConstructor
+public class UsuarioCreateDTO {
     @NotNull
     @Size(min = 5, max = 255)
     private String nomeCompleto;
@@ -35,5 +32,4 @@ public class Usuario {
     @NotBlank
     @Size(min = 5, max = 30)
     private String senha;
-
 }
