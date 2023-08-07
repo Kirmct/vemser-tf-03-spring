@@ -26,18 +26,18 @@ public class ReceitaController {
     private final ReceitaService receitaService;
 
     @GetMapping
-    public ResponseEntity<List<Receita>> listarTodos(){
+    public ResponseEntity<List<ReceitaDTO>> listarTodos(){
         return new ResponseEntity<>(receitaService.listarTodos(), HttpStatus.OK);
     }
 
     @GetMapping("/{idReceita}")
-    public Receita buscarReceita(@PathVariable("idReceita") @Positive Integer id) throws RegraDeNegocioException{
-        return receitaService.buscarById(id);
+    public ResponseEntity<ReceitaDTO> buscarReceita(@PathVariable("idReceita") @Positive Integer id) throws RegraDeNegocioException{
+        return new ResponseEntity<>(receitaService.buscarById(id), HttpStatus.OK);
     }
 
     @GetMapping("/usuario/{idUsuario}")
-    public List<Receita> listarReceitasPorUsuario(@PathVariable("idUsuario") Integer id) throws RegraDeNegocioException {
-        return receitaService.buscarByIdUsuario(id);
+    public ResponseEntity<List<ReceitaDTO>> listarReceitasPorUsuario(@PathVariable("idUsuario") Integer id) throws RegraDeNegocioException {
+        return new ResponseEntity<>(receitaService.buscarByIdUsuario(id), HttpStatus.OK);
     }
 
     @PostMapping
