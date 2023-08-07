@@ -14,6 +14,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -86,9 +87,11 @@ public class ReceitaService {
     }
 
     // leitura geral
-    public List<Receita> listarTodos() {
+    public List<ReceitaDTO> listarTodos() {
         try {
-            return receitaRepository.listar();
+            List<Receita> receitas = receitaRepository.listar();
+            List<ReceitaDTO> receitasDTO = this.convertToDTOList(receitas);
+            return receitasDTO;
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
@@ -96,13 +99,15 @@ public class ReceitaService {
     }
 
     // Leitura por usuario
-    public List<Receita> buscarByIdUsuario(Integer idUsuario) throws RegraDeNegocioException {
+    public List<ReceitaDTO> buscarByIdUsuario(Integer idUsuario) throws RegraDeNegocioException {
         try {
             UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(idUsuario);
             Usuario usuarioConvertido = objectMapper.convertValue(usuarioById, Usuario.class);
 
             if (usuarioConvertido != null) {
-                return receitaRepository.listarPorIdUsuario(idUsuario);
+                List<Receita> receitas = receitaRepository.listarPorIdUsuario(idUsuario);
+                List<ReceitaDTO> receitasDTO = this.convertToDTOList(receitas);
+                return receitasDTO;
             } else {
                 throw new RegraDeNegocioException("Usuario não encontrado");
             }
@@ -113,11 +118,12 @@ public class ReceitaService {
     }
 
     // leitura por id da receita
-    public Receita buscarById(Integer idReceita) throws RegraDeNegocioException {
+    public ReceitaDTO buscarById(Integer idReceita) throws RegraDeNegocioException {
         try {
             Receita receita = receitaRepository.buscarPorId(idReceita);
             if (receita != null) {
-                return receita;
+                ReceitaDTO receitaDTO = convertToDTO(receita);
+                return receitaDTO;
             } else {
                 throw new RegraDeNegocioException("Receita não encontrada");
             }
@@ -126,4 +132,22 @@ public class ReceitaService {
         }
         return null;
     }
+
+    private ReceitaDTO convertToDTO(Receita receita){
+        ReceitaDTO receitaDTO = new ReceitaDTO();
+        receitaDTO.setDescricao(receita.getDescricao());
+        receitaDTO.setTipo(receita.getTipo());
+        receitaDTO.setValor(receita.getValor());
+        receitaDTO.setIdFK(receita.getIdFK());
+        receitaDTO.setBanco(receita.getBanco());
+        receitaDTO.setEmpresa(receita.getEmpresa());
+
+        return receitaDTO;
+    }
+
+    private List<ReceitaDTO> convertToDTOList(List<Receita> listaReceitas){
+        return listaReceitas.stream()
+                .map(this::convertToDTO).collect(Collectors.toList());
+    }
+
 }
