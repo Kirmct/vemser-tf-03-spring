@@ -14,47 +14,47 @@ VALUES (SEQ_USUARIO.nextval, 'Kamila Santos', TO_DATE('21-09-1990', 'dd-mm-yyyy'
 
 -- Investimento --
 INSERT INTO INVESTIMENTO (ID_INVESTIMENTO, CORRETORA, TIPO, VALOR, DATA_INICIAL, DESCRICAO, ID_USUARIO)
-VALUES (SEQ_INVESTIMENTO.nextval, 'Binance', 'Fixa', 800.00, TO_DATE('11-03-2023', 'dd-mm-yyyy'), 'Aquisição cotas FII devant', 1);
+VALUES (SEQ_INVESTIMENTO.nextval, 'Binance', 'FIXA', 800.00, TO_DATE('11-03-2023', 'dd-mm-yyyy'), 'Aquisição cotas FII devant', 1);
 
 INSERT INTO INVESTIMENTO (ID_INVESTIMENTO, CORRETORA, TIPO, VALOR, DATA_INICIAL, DESCRICAO, ID_USUARIO)
-VALUES (SEQ_INVESTIMENTO.nextval, 'XP', 'Fixa', 1300.00, TO_DATE('19-08-2021', 'dd-mm-yyyy'), 'Aquisição ações Magalu', 2);
+VALUES (SEQ_INVESTIMENTO.nextval, 'XP', 'FIXA', 1300.00, TO_DATE('19-08-2021', 'dd-mm-yyyy'), 'Aquisição ações Magalu', 2);
 
 INSERT INTO INVESTIMENTO (ID_INVESTIMENTO, CORRETORA, TIPO, VALOR, DATA_INICIAL, DESCRICAO, ID_USUARIO)
-VALUES(SEQ_INVESTIMENTO.nextval, 'XP Investimentos', 'Fixa', 200.0, TO_DATE('29-12-2020', 'dd-mm-yyyy'), 'Tesouro Selic', 4);
+VALUES(SEQ_INVESTIMENTO.nextval, 'XP Investimentos', 'FIXA', 200.0, TO_DATE('29-12-2020', 'dd-mm-yyyy'), 'Tesouro Selic', 4);
 
 INSERT INTO INVESTIMENTO (ID_INVESTIMENTO, CORRETORA, TIPO, VALOR, DATA_INICIAL, DESCRICAO, ID_USUARIO)
-VALUES(SEQ_INVESTIMENTO.nextval, 'Easynvest', 'Fixa', 400.0, TO_DATE('14-06-2022', 'dd-mm-yyyy'), 'Fundo de Ações', 3);
+VALUES(SEQ_INVESTIMENTO.nextval, 'Easynvest', 'FIXA', 400.0, TO_DATE('14-06-2022', 'dd-mm-yyyy'), 'Fundo de Ações', 3);
 
 INSERT INTO INVESTIMENTO (ID_INVESTIMENTO, CORRETORA, TIPO, VALOR, DATA_INICIAL, DESCRICAO, ID_USUARIO)
-VALUES(SEQ_INVESTIMENTO.nextval, 'BTG Pactual Digital', 'Fixa', 1000.0, TO_DATE('08-06-2023', 'dd-mm-yyyy'), 'Fundos de Renda Fixa', 4);
+VALUES(SEQ_INVESTIMENTO.nextval, 'BTG Pactual Digital', 'FIXA', 1000.0, TO_DATE('08-06-2023', 'dd-mm-yyyy'), 'Fundos de Renda Fixa', 4);
 
 
 -- Despesas fixas --
 INSERT INTO DESPESA (ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO,ID_USUARIO)
-VALUES (SEQ_DESPESA.nextval, 'Fixa', 500, 'Alimentação', TO_DATE('27-07/203','dd-mm-yyyy'), 1); 
+VALUES (SEQ_DESPESA.nextval, 'FIXA', 500, 'Alimentação', TO_DATE('27-07/203','dd-mm-yyyy'), 1); 
 
 INSERT INTO DESPESA (ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO,ID_USUARIO)
-VALUES (SEQ_DESPESA.nextval, 'Fixa', 250, 'Energia', TO_DATE('25-07/203','dd-mm-yyyy'), 2);
+VALUES (SEQ_DESPESA.nextval, 'FIXA', 250, 'Energia', TO_DATE('25-07/203','dd-mm-yyyy'), 2);
 
 INSERT INTO DESPESA (ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO,ID_USUARIO)
-VALUES (SEQ_DESPESA.nextval, 'Fixa', 180, 'Água', TO_DATE('20-07/203','dd-mm-yyyy'), 3);
+VALUES (SEQ_DESPESA.nextval, 'FIXA', 180, 'Água', TO_DATE('20-07/203','dd-mm-yyyy'), 3);
 
 INSERT INTO DESPESA (ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO,ID_USUARIO)
-VALUES (SEQ_DESPESA.nextval, 'Fixa',230 , 'Transporte', TO_DATE('15-07/203','dd-mm-yyyy'), 4);
+VALUES (SEQ_DESPESA.nextval, 'FIXA',230 , 'Transporte', TO_DATE('15-07/203','dd-mm-yyyy'), 4);
 
 
 -- Despesa variável --
 INSERT INTO DESPESA (ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO,ID_USUARIO)
-VALUES (SEQ_DESPESA.nextval, 'Variável', 120, 'Remédio', TO_DATE('15-07/203','dd-mm-yyyy'), 1);
+VALUES (SEQ_DESPESA.nextval, 'VARIAVEL', 120, 'Remédio', TO_DATE('15-07/203','dd-mm-yyyy'), 1);
 
 INSERT INTO DESPESA (ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO,ID_USUARIO)
-VALUES (SEQ_DESPESA.nextval, 'Variável', 600, 'Manutenção do carro', TO_DATE('12-07/203','dd-mm-yyyy'), 2);
+VALUES (SEQ_DESPESA.nextval, 'VARIAVEL', 600, 'Manutenção do carro', TO_DATE('12-07/203','dd-mm-yyyy'), 2);
 
 INSERT INTO DESPESA (ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO,ID_USUARIO)
-VALUES (SEQ_DESPESA.nextval, 'Variável', 220, 'Presente', TO_DATE('30-07/203','dd-mm-yyyy'), 3);
+VALUES (SEQ_DESPESA.nextval, 'VARIAVEL', 220, 'Presente', TO_DATE('30-07/203','dd-mm-yyyy'), 3);
 
 INSERT INTO DESPESA (ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO,ID_USUARIO)
-VALUES (SEQ_DESPESA.nextval, 'Variável',50 , 'Pneu furado', TO_DATE('10-07/203','dd-mm-yyyy'), 4);
+VALUES (SEQ_DESPESA.nextval, 'VARIAVEL',50 , 'Pneu furado', TO_DATE('10-07/203','dd-mm-yyyy'), 4);
 
 
 -- Receita --
