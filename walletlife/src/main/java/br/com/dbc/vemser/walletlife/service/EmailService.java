@@ -25,7 +25,7 @@ public class EmailService {
     private final JavaMailSender mailSender;
     private final Configuration fmConfiguration;
 
-    private String from = "Kirmct de Abreu <kirmct.neto@dbccompany.com.br>";
+    private String from = "Vinicius Pereira <vinicius.santos@dbccompany.com.br>";
 
     @Value("${spring.mail.username}")
     private String username;
