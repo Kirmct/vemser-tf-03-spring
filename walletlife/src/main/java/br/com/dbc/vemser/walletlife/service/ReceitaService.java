@@ -5,7 +5,6 @@ import br.com.dbc.vemser.walletlife.dto.ReceitaDTO;
 import br.com.dbc.vemser.walletlife.dto.UsuarioDTO;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.exceptions.RegraDeNegocioException;
-import br.com.dbc.vemser.walletlife.modelos.Investimento;
 import br.com.dbc.vemser.walletlife.modelos.Receita;
 import br.com.dbc.vemser.walletlife.modelos.Usuario;
 import br.com.dbc.vemser.walletlife.repository.ReceitaRepository;
@@ -23,6 +22,7 @@ public class ReceitaService {
     private final ReceitaRepository receitaRepository;
     private final ObjectMapper objectMapper;
     private final UsuarioService usuarioService;
+
 
     // criação
     public ReceitaDTO adicionarReceita(ReceitaCreateDTO receita) throws RegraDeNegocioException {
@@ -68,7 +68,8 @@ public class ReceitaService {
     public ReceitaDTO editarReceita(Integer id, ReceitaDTO receita) throws RegraDeNegocioException {
         try {
             receita.setId(id);
-            Receita entity = buscarById(id);
+            ReceitaDTO entityDTO = buscarById(id);
+            Receita entity = objectMapper.convertValue(entityDTO, Receita.class);
 
             if (entity != null) {
                 entity.setDescricao(receita.getDescricao());
