@@ -74,7 +74,6 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
-            System.out.println("removerUsuarioPorId.res= " + res);
 
             return res > 0;
         } catch (SQLException e) {
@@ -110,7 +109,6 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
 
             stmt.setString(1, usuario.getNomeCompleto());
             stmt.setDate(2, Date.valueOf(usuario.getDataNascimento()));
-            System.out.println(usuario.getDataNascimento());
             stmt.setString(3, usuario.getCpf());
             stmt.setString(4, usuario.getEmail());
             stmt.setString(5, usuario.getSenha());
@@ -118,7 +116,6 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
-            System.out.println("editarUsuario.res=" + res);
 
             if(res > 0){
                 return usuario;
