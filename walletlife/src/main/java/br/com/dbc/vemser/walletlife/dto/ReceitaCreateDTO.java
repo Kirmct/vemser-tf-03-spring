@@ -1,6 +1,7 @@
 package br.com.dbc.vemser.walletlife.dto;
 
 import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,18 +14,24 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReceitaCreateDTO {
+    @Schema(description = "Tipo de receita", example = "FIXA", required = true)
     protected TipoDespesaEReceita tipo;
 
-    @NotNull
+    @NotNull(message = "O valor não pode ser nulo")
+    @Schema(description = "Valor da receita", example = "1500.00", required = true)
     private Double valor;
 
-    @NotNull
-    @Size(min = 5, max = 30)
+    @NotNull(message = "A descrição não pode ser nula")
+    @Size(min = 5, max = 30, message = "A descrição deve ter entre 5 e 30 caracteres")
+    @Schema(description = "Descrição da receita", required = true, example = "Salário")
     private String descricao;
-    @NotEmpty
+
+    @NotEmpty(message = "O banco não pode estar vazio")
+    @Schema(description = "Nome do banco", required = true, example = "Banco do Brasil")
     private String banco;
 
-    @NotEmpty
+    @NotEmpty(message = "A empresa não pode estar vazia")
+    @Schema(description = "Nome da empresa", required = true, example = "Empresa XYZ")
     private String empresa;
 
     private int idFK;

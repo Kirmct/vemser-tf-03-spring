@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.walletlife.controllers;
 
+import br.com.dbc.vemser.walletlife.doc.ReceitaControllerDoc;
 import br.com.dbc.vemser.walletlife.dto.ReceitaCreateDTO;
 import br.com.dbc.vemser.walletlife.dto.ReceitaDTO;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
@@ -22,7 +23,7 @@ import java.util.List;
 @Validated
 @Data
 @RequestMapping("/receita")
-public class ReceitaController {
+public class ReceitaController implements ReceitaControllerDoc {
     private final ReceitaService receitaService;
 
     @GetMapping
