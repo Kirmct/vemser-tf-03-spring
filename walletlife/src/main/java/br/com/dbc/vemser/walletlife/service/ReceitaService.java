@@ -34,14 +34,7 @@ public class ReceitaService {
                 Receita entity = objectMapper.convertValue(receita, Receita.class);
 
                 Receita receitaAdicionada = receitaRepository.adicionar(entity);
-                ReceitaDTO receitaDTO = new ReceitaDTO();
-                receitaDTO.setId(receitaAdicionada.getId());
-                receitaDTO.setDescricao(receitaAdicionada.getDescricao());
-                receitaDTO.setTipo(receitaAdicionada.getTipo());
-                receitaDTO.setValor(receitaAdicionada.getValor());
-                receitaDTO.setIdFK(receitaAdicionada.getIdFK());
-                receitaDTO.setBanco(receitaAdicionada.getBanco());
-                receitaDTO.setEmpresa(receitaAdicionada.getEmpresa());
+                ReceitaDTO receitaDTO = convertToDTO(receitaAdicionada);
 
                 return receitaDTO;
             } else {
@@ -135,13 +128,7 @@ public class ReceitaService {
     }
 
     private ReceitaDTO convertToDTO(Receita receita){
-        ReceitaDTO receitaDTO = new ReceitaDTO();
-        receitaDTO.setDescricao(receita.getDescricao());
-        receitaDTO.setTipo(receita.getTipo());
-        receitaDTO.setValor(receita.getValor());
-        receitaDTO.setIdFK(receita.getIdFK());
-        receitaDTO.setBanco(receita.getBanco());
-        receitaDTO.setEmpresa(receita.getEmpresa());
+        ReceitaDTO receitaDTO = objectMapper.convertValue(receita, ReceitaDTO.class);
 
         return receitaDTO;
     }
