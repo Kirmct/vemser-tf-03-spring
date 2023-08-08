@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.walletlife.controllers;
 
+import br.com.dbc.vemser.walletlife.doc.UsuarioControllerDoc;
 import br.com.dbc.vemser.walletlife.dto.UsuarioCreateDTO;
 import br.com.dbc.vemser.walletlife.dto.UsuarioDTO;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequestMapping("/usuario")
 @Validated
 @Slf4j
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerDoc {
     private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService) {
