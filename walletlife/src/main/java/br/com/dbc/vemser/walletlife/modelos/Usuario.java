@@ -17,23 +17,10 @@ public class Usuario {
 
     private Integer id;
 
-    @NotNull
-    @Size(min = 5, max = 255)
     private String nomeCompleto;
-    @NotNull
-    @PastOrPresent
     private LocalDate dataNascimento;
-
-    @NotNull
-    @Size(max = 11)
     private String cpf;
-
-    @NotBlank
-    @Size(min = 12)
     private String email;
-
-    @NotBlank
-    @Size(min = 5, max = 30)
     private String senha;
 
 }
