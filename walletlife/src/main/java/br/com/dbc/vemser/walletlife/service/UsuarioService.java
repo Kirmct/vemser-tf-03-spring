@@ -51,20 +51,18 @@ public class UsuarioService {
         return novoUsuario;
     }
 
-    public boolean removerPessoa(Integer id) {
+    public void removerPessoa(Integer id) {
         try {
             Usuario usuario = usuarioRepository.buscarPorId(id);
             if (usuario.getId() == null){
                 throw new RegraDeNegocioException("Usuário não encontrado");
             }
-            boolean conseguiuRemover = usuarioRepository.remover(id);
-            return conseguiuRemover;
+            usuarioRepository.remover(id);
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         } catch (RegraDeNegocioException e) {
             throw new RuntimeException(e);
         }
-        return false;
     }
 
     // atualização de um objeto

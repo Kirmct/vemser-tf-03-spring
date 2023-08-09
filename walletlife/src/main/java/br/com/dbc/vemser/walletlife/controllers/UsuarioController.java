@@ -31,10 +31,10 @@ public class UsuarioController implements UsuarioControllerDoc {
         return new ResponseEntity<>(usuarioService.listar(), HttpStatus.OK);
     }
 
-    @GetMapping("/{idPessoa}")
-    public ResponseEntity<UsuarioDTO> listarPessoasPorId(@PathVariable("idPessoa") @Positive Integer idPessoa){
-        log.info("Usuário: listar por Id de pessoa");
-        return new ResponseEntity<>(usuarioService.listarPessoasPorId(idPessoa), HttpStatus.OK);
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<UsuarioDTO> listarPessoasPorId(@PathVariable("idUsuario") @Positive Integer idUsuario){
+        log.info("Usuário: listar por Id do usuário");
+        return new ResponseEntity<>(usuarioService.listarPessoasPorId(idUsuario), HttpStatus.OK);
     }
 
     @PostMapping
