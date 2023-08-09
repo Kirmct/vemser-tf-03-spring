@@ -1,10 +1,9 @@
 package br.com.dbc.vemser.walletlife.dto;
 
 import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
-import br.com.dbc.vemser.walletlife.modelos.AbstractMovimentoDinheiro;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
@@ -15,25 +14,30 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class InvestimentoCreateDTO{
-    // Atributos herdados de AbstractMovimentoDinheiro
+@Schema(description = "DTO para criar um novo Investimento")
+public class InvestimentoCreateDTO {
     @NotNull
+    @Schema(description = "Tipo de investimento", example = "FIXA", required = true)
     protected TipoDespesaEReceita tipo;
-    // Atributos herdados de AbstractMovimentoDinheiro
+
     @NotNull
+    @Schema(description = "Valor do investimento", example = "1500.00", required = true)
     private Double valor;
-    // Atributos herdados de AbstractMovimentoDinheiro
+
     @NotNull
     @Size(min = 5, max = 30)
+    @Schema(description = "Descrição do investimento", required = true, example = "Investimento em ações")
     private String descricao;
 
     @NotEmpty
-    protected String corretora;
+    @Schema(description = "Nome da corretora", required = true, example = "Corretora XYZ")
+    private String corretora;
 
     @NotNull
+    @Schema(description = "Data de início do investimento", required = true, example = "2023-08-09")
     private LocalDate dataInicio;
 
     @NotNull
+    @Schema(description = "ID da chave estrangeira", required = true, example = "1")
     private int idFK;
 }
