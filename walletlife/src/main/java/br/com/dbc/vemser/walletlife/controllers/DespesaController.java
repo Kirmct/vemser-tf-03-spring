@@ -24,33 +24,33 @@ import java.util.List;
 public class DespesaController implements DespesaControllerDoc {
     private final DespesaService despesaService;
 
-    @GetMapping //GET localhost:8080/despesa
+    @GetMapping
     public ResponseEntity<List<DespesaDTO>> listarTodos(){
         return new ResponseEntity<>(despesaService.listarTodos(), HttpStatus.OK);
     }
 
-    @GetMapping("/{idDespesa}") //GET localhost:8080/despesa/1
+    @GetMapping("/{idDespesa}")
     public ResponseEntity<DespesaDTO> buscarDespesas(@PathVariable("idDespesa") Integer id) throws RegraDeNegocioException {
         return new ResponseEntity<>(despesaService.buscarById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/usuario/{idUsuario}")//GET localhost:8080/despesa/usuario/1
+    @GetMapping("/usuario/{idUsuario}")
     public ResponseEntity<List<DespesaDTO>> listarDespesasPorUsuario(@PathVariable("idUsuario") @Positive Integer id) throws RegraDeNegocioException {
         return new ResponseEntity<>(despesaService.listarDespesaByIdUsuario(id), HttpStatus.OK);
     }
 
-    @PostMapping //POST localhost:8080/despesa
+    @PostMapping
     public ResponseEntity<DespesaDTO> adicionarDespesa(@Valid @RequestBody DespesaCreateDTO despesa) throws RegraDeNegocioException {
         return new ResponseEntity<>(despesaService.adicionarDespesa(despesa), HttpStatus.OK);
     }
 
-    @PutMapping("/{idDespesa}") //PUT localhost:8080/despesa/1
+    @PutMapping("/{idDespesa}")
     public ResponseEntity<DespesaDTO> editarDepesa(@PathVariable("idDespesa") Integer id,
                                                    @Valid @RequestBody DespesaCreateDTO despesaAtualizar) throws RegraDeNegocioException {
         return new ResponseEntity<>(despesaService.editarDespesa(id, despesaAtualizar), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{idDespesa}") //DELETE localhost:8080/despesa/1
+    @DeleteMapping("/{idDespesa}")
     public ResponseEntity<Void> removerDespesa(@PathVariable("idDespesa") Integer id) throws RegraDeNegocioException{
         despesaService.removerDespesa(id);
         return ResponseEntity.ok().build();
