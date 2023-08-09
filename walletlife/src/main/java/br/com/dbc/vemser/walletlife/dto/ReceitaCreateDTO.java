@@ -1,6 +1,5 @@
 package br.com.dbc.vemser.walletlife.dto;
 
-import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +13,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReceitaCreateDTO {
-    @Schema(description = "Tipo de receita", example = "FIXA", required = true)
-    protected TipoDespesaEReceita tipo;
 
     @NotNull(message = "O valor não pode ser nulo")
     @Schema(description = "Valor da receita", example = "1500.00", required = true)

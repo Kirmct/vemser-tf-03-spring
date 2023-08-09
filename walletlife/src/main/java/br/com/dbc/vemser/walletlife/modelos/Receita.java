@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Receita extends AbstractMovimentoDinheiro<TipoDespesaEReceita> {
+public class Receita extends AbstractMovimentoDinheiro {
     @NotEmpty
     private String banco;
 

@@ -66,7 +66,6 @@ public class ReceitaService {
 
             if (entity != null) {
                 entity.setDescricao(receita.getDescricao());
-                entity.setTipo(receita.getTipo());
                 entity.setValor(receita.getValor());
                 entity.setIdFK(receita.getIdFK());
                 entity.setBanco(receita.getBanco());

@@ -7,13 +7,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Despesa extends AbstractMovimentoDinheiro<TipoDespesaEReceita> {
+public class Despesa extends AbstractMovimentoDinheiro {
+    @NotNull
+    private TipoDespesaEReceita tipo;
 
     @NotEmpty
     private LocalDate dataPagamento;
