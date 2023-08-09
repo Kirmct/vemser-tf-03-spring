@@ -15,7 +15,9 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Investimento extends AbstractMovimentoDinheiro<TipoDespesaEReceita> {
+public class Investimento extends AbstractMovimentoDinheiro{
+    @NotNull
+    private TipoDespesaEReceita tipo;
 
     @NotEmpty
     @Schema(description = "Nome da corretora do investimento", required = true)
