@@ -44,7 +44,7 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             PreparedStatement stmt = con.prepareStatement(sql);
 
             stmt.setInt(1, despesa.getId());
-            stmt.setString(3, String.valueOf(despesa.getTipo()));
+            stmt.setString(2, String.valueOf(despesa.getTipo()));
             stmt.setDouble(3, despesa.getValor());
             stmt.setString(4, despesa.getDescricao());
             stmt.setDate(5, Date.valueOf(despesa.getDataPagamento()));
@@ -106,15 +106,21 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE DESPESA SET ");
+            sql.append(" tipo = ?,");
             sql.append(" valor = ?,");
-            sql.append(" descricao = ? ");
+            sql.append(" descricao = ?,");
+            sql.append(" data_pagamento = ?,");
+            sql.append(" id_usuario = ? ");
             sql.append(" WHERE id_despesa = ?");
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
-            stmt.setDouble(1, despesa.getValor());
-            stmt.setString(2, despesa.getDescricao());
-            stmt.setInt(3, id);
+            stmt.setString(1, String.valueOf(despesa.getTipo()));
+            stmt.setDouble(2, despesa.getValor());
+            stmt.setString(3, despesa.getDescricao());
+            stmt.setDate(4, Date.valueOf(despesa.getDataPagamento()));
+            stmt.setInt(5, despesa.getIdFK());
+            stmt.setInt(6, id);
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();

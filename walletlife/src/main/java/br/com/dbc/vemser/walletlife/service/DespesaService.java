@@ -64,7 +64,7 @@ public class DespesaService {
     }
 
     // atualização de um objeto
-    public DespesaDTO editarDespesa(Integer id, DespesaDTO despesa) throws RegraDeNegocioException{
+    public DespesaDTO editarDespesa(Integer id, DespesaCreateDTO despesa) throws RegraDeNegocioException{
         try {
             UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(despesa.getIdFK());
             Usuario usuarioConvertido = objectMapper.convertValue(usuarioById, Usuario.class);

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 public interface DespesaControllerDoc {
@@ -22,6 +23,7 @@ public interface DespesaControllerDoc {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
+    @GetMapping //GET localhost:8080/despesa
     public ResponseEntity<List<DespesaDTO>> listarTodos();
 
     @Operation(summary = "Buscar despesa no banco", description = "Busca no banco a despesa a partir de um ID")
@@ -31,8 +33,7 @@ public interface DespesaControllerDoc {
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
-    )
-    @GetMapping("/{idDespesa}") //GET localhost:8080/despesa/1
+    )@GetMapping("/{idDespesa}") //GET localhost:8080/despesa/1
     public ResponseEntity<DespesaDTO> buscarDespesas(@PathVariable("idDespesa") Integer id) throws RegraDeNegocioException;
 
     @Operation(summary = "Listar despesas de um usuário", description = "Busca no banco as despesas de um usuário utilizando o ID do usuário")
@@ -42,9 +43,8 @@ public interface DespesaControllerDoc {
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
-    )
-    @GetMapping("/usuario/{idUsuario}")//GET localhost:8080/despesa/usuario/1
-    public ResponseEntity<List<DespesaDTO>> listarDespesasPorUsuario(@PathVariable("idUsuario") Integer id) throws RegraDeNegocioException;
+    )@GetMapping("/usuario/{idUsuario}")//GET localhost:8080/despesa/usuario/1
+    public ResponseEntity<List<DespesaDTO>> listarDespesasPorUsuario(@PathVariable("idUsuario") @Positive Integer id) throws RegraDeNegocioException;
 
     @Operation(summary = "Insere uma nova despesa", description = "Insere uma nova despesa no banco")
     @ApiResponses(
@@ -67,7 +67,7 @@ public interface DespesaControllerDoc {
     )
     @PutMapping("/{idDespesa}") //PUT localhost:8080/despesa/1
     public ResponseEntity<DespesaDTO> editarDepesa(@PathVariable("idDespesa") Integer id,
-                                                   @Valid @RequestBody DespesaDTO despesaAtualizar) throws RegraDeNegocioException;
+                                                   @Valid @RequestBody DespesaCreateDTO despesaAtualizar) throws RegraDeNegocioException;
 
     @Operation(summary = "Deleta uma despesa por ID", description = "Busca no banco a despesa a partir de um ID e a deleta")
     @ApiResponses(

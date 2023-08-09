@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.walletlife.controllers;
 
+import br.com.dbc.vemser.walletlife.doc.DespesaControllerDoc;
 import br.com.dbc.vemser.walletlife.dto.DespesaCreateDTO;
 import br.com.dbc.vemser.walletlife.dto.DespesaDTO;
 import br.com.dbc.vemser.walletlife.exceptions.RegraDeNegocioException;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping("/despesa")
 @Slf4j
 @Data
-public class DespesaController {
+public class DespesaController implements DespesaControllerDoc {
     private final DespesaService despesaService;
 
     @GetMapping //GET localhost:8080/despesa
@@ -45,8 +46,8 @@ public class DespesaController {
 
     @PutMapping("/{idDespesa}") //PUT localhost:8080/despesa/1
     public ResponseEntity<DespesaDTO> editarDepesa(@PathVariable("idDespesa") Integer id,
-                           @Valid @RequestBody DespesaDTO despesaAtualizar) throws RegraDeNegocioException {
-                return new ResponseEntity<>(despesaService.editarDespesa(id, despesaAtualizar), HttpStatus.OK);
+                                                   @Valid @RequestBody DespesaCreateDTO despesaAtualizar) throws RegraDeNegocioException {
+        return new ResponseEntity<>(despesaService.editarDespesa(id, despesaAtualizar), HttpStatus.OK);
     }
 
     @DeleteMapping("/{idDespesa}") //DELETE localhost:8080/despesa/1
