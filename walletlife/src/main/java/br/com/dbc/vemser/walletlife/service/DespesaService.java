@@ -13,6 +13,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -30,16 +31,18 @@ public class DespesaService {
 
             if (usuarioConvertido != null) {
                 Despesa entity = objectMapper.convertValue(despesa, Despesa.class);
+                entity.setValor(despesa.getValor());
+                entity.setDescricao(despesa.getDescricao());
+                entity.setTipo(despesa.getTipo());
+                entity.setIdFK(despesa.getIdFK());
                 Despesa despesaAdicionada = despesaRepository.adicionar(entity);
 
-                DespesaDTO despesaDTO = new DespesaDTO();
-
-                despesaDTO.setTipo(despesaAdicionada.getTipo());
-                despesaDTO.setValor(despesaAdicionada.getValor());
-                despesaDTO.setDescricao(despesaAdicionada.getDescricao());
-                despesaDTO.setIdFK(despesaAdicionada.getIdFK());
-
-                return despesaDTO;
+                if (despesaAdicionada != null){
+                    DespesaDTO despesaDTO = convertToDTO(despesaAdicionada);
+                    return despesaDTO;
+                }else{
+                    throw new RegraDeNegocioException("Investimento não adicionado");
+                }
             } else {
                 throw new RegraDeNegocioException("Usuario não encontrado");
             }
@@ -63,15 +66,25 @@ public class DespesaService {
     // atualização de um objeto
     public DespesaDTO editarDespesa(Integer id, DespesaDTO despesa) throws RegraDeNegocioException{
         try {
-            despesa.setId(id);
-            Despesa entity = buscarById(id);
-            if (entity != null) {
+            UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(despesa.getIdFK());
+            Usuario usuarioConvertido = objectMapper.convertValue(usuarioById, Usuario.class);
+
+            if (usuarioConvertido != null){
+                Despesa entity = objectMapper.convertValue(despesa, Despesa.class);
+                entity.setValor(despesa.getValor());
                 entity.setDescricao(despesa.getDescricao());
                 entity.setTipo(despesa.getTipo());
-                entity.setValor(despesa.getValor());
                 entity.setIdFK(despesa.getIdFK());
-                despesaRepository.editar(id, entity);
-                return despesa;
+                Despesa despesaAtualizada = despesaRepository.editar(id, entity);
+
+                if (despesaAtualizada != null){
+                    DespesaDTO despesaDTO = convertToDTO(despesaAtualizada);
+                    return despesaDTO;
+                }else{
+                    throw new RegraDeNegocioException("Despesa não encontrado");
+                }
+            }else {
+                throw new RegraDeNegocioException("Usuario não encontrado");
             }
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
@@ -80,13 +93,14 @@ public class DespesaService {
     }
 
     // leitura
-    public List<Despesa> listarDespesaByIdUsuario(Integer idUsuario) throws RegraDeNegocioException{
+    public List<DespesaDTO> listarDespesaByIdUsuario(Integer idUsuario) throws RegraDeNegocioException{
         try {
             UsuarioDTO usuarioById = usuarioService.listarPessoasPorId(idUsuario);
-            Usuario usuarioConvertido = objectMapper.convertValue(usuarioById, Usuario.class);
 
-            if (usuarioConvertido != null) {
-                return despesaRepository.listarPorIdUsuario(idUsuario);
+            if (usuarioById != null) {
+                List<Despesa> despesas = despesaRepository.listarPorIdUsuario(idUsuario);
+                List<DespesaDTO> despesasDTO = this.convertToDTOList(despesas);
+                return despesasDTO;
             } else {
                 throw new RegraDeNegocioException("Usuario não encontrado");
             }
@@ -95,20 +109,23 @@ public class DespesaService {
         }
         return null;
     }
-    public List<Despesa> listarTodos() {
+    public List<DespesaDTO> listarTodos() {
         try {
-            return despesaRepository.listar();
+            List<Despesa> despesas = despesaRepository.listar();
+            List<DespesaDTO> despesasDTO = this.convertToDTOList(despesas);
+            return despesasDTO;
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Despesa buscarById(Integer idDespesa) throws RegraDeNegocioException {
+    public DespesaDTO buscarById(Integer idDespesa) throws RegraDeNegocioException {
         try {
             Despesa despesa = despesaRepository.buscarPorId(idDespesa);
             if (despesa != null) {
-                return despesa;
+                DespesaDTO despesaDTO = convertToDTO(despesa);
+                return despesaDTO;
             } else {
                 throw new RegraDeNegocioException("Despesa não encontrada");
             }
@@ -118,5 +135,14 @@ public class DespesaService {
         return null;
     }
 
+    private DespesaDTO convertToDTO(Despesa despesa){
+        DespesaDTO despesaDTO = objectMapper.convertValue(despesa, DespesaDTO.class);
 
+        return despesaDTO;
+    }
+
+    private List<DespesaDTO> convertToDTOList(List<Despesa> listaDespesas){
+        return listaDespesas.stream()
+                .map(this::convertToDTO).collect(Collectors.toList());
+    }
 }

@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.walletlife.repository;
 
+import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Despesa;
 import org.springframework.stereotype.Repository;
@@ -37,13 +38,13 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             despesa.setId(proximoId);
 
             String sql = "INSERT INTO DESPESA\n" +
-                    "(ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO, ID_USUARIO )\n" +
+                    "(ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO, ID_USUARIO)\n" +
                     "VALUES(?, ?, ?, ?, ?, ?)\n";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
             stmt.setInt(1, despesa.getId());
-            stmt.setString(2, despesa.getTipo().toString());
+            stmt.setString(3, String.valueOf(despesa.getTipo()));
             stmt.setDouble(3, despesa.getValor());
             stmt.setString(4, despesa.getDescricao());
             stmt.setDate(5, Date.valueOf(despesa.getDataPagamento()));
@@ -150,6 +151,11 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             while (res.next()) {
                 Despesa despesa = new Despesa();
                 despesa.setId(res.getInt("id_despesa"));
+
+                String tipoDespesa = res.getString("Tipo").toUpperCase();
+                String despesaTipo = tipoDespesa.replaceAll("\u00C1", "A");
+                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaTipo));
+
                 despesa.setValor(res.getDouble("valor"));
                 despesa.setDescricao(res.getString("descricao"));
                 despesa.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
@@ -186,6 +192,11 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
 
            if (res.next()) {
                 despesa.setId(res.getInt("id_despesa"));
+
+                String tipoDespesa = res.getString("Tipo").toUpperCase();
+                String despesaTipo = tipoDespesa.replaceAll("\u00C1", "A");
+                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaTipo));
+
                 despesa.setValor(res.getDouble("valor"));
                 despesa.setDescricao(res.getString("descricao"));
                 despesa.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
@@ -220,6 +231,11 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             while (res.next()) {
                 Despesa despesa = new Despesa();
                 despesa.setId(res.getInt("id_despesa"));
+
+                String tipoDespesa = res.getString("Tipo").toUpperCase();
+                String despesaTipo = tipoDespesa.replaceAll("\u00C1", "A");
+                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaTipo));
+
                 despesa.setValor(res.getDouble("valor"));
                 despesa.setDescricao(res.getString("descricao"));
                 despesa.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
