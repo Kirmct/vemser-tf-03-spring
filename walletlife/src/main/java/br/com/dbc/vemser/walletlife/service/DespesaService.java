@@ -123,12 +123,13 @@ public class DespesaService {
     public DespesaDTO buscarById(Integer idDespesa) throws RegraDeNegocioException {
         try {
             Despesa despesa = despesaRepository.buscarPorId(idDespesa);
-            if (despesa != null) {
-                DespesaDTO despesaDTO = convertToDTO(despesa);
-                return despesaDTO;
-            } else {
+            if (despesa.getId() == null){
                 throw new RegraDeNegocioException("Despesa não encontrada");
             }
+            DespesaDTO despesaDTO = convertToDTO(despesa);
+
+            return despesaDTO;
+
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }

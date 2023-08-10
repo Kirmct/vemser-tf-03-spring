@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public abstract class AbstractMovimentoDinheiro {
 
-    private int id;
+    private Integer id;
 
     @NotNull
     private Double valor;
