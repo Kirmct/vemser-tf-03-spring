@@ -123,7 +123,6 @@ public class ReceitaService {
         try {
             Receita receita = receitaRepository.buscarPorId(idReceita);
             ReceitaDTO receitaDTO = convertToDTO(receita);
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + receita);
             if (receita.getId() == null) {
                 throw new RegraDeNegocioException("Receita não encontrada");
             }

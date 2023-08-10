@@ -79,6 +79,7 @@ public class DespesaService {
 
                 if (despesaAtualizada != null){
                     DespesaDTO despesaDTO = convertToDTO(despesaAtualizada);
+                    despesaDTO.setId(id);
                     return despesaDTO;
                 }else{
                     throw new RegraDeNegocioException("Despesa não encontrado");

@@ -104,6 +104,7 @@ public class UsuarioService {
         try {
             Usuario listar = usuarioRepository.buscarPorId(id);
             UsuarioDTO usuarioDTO = this.convertToDTO(listar);
+            usuarioDTO.setId(listar.getId());
 
             if(listar.getId() == null){
                 throw new RegraDeNegocioException("Usuário não encontrado");
