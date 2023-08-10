@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReceitaDTO extends ReceitaCreateDTO{
-    private int id;
+    private Integer id;
 }

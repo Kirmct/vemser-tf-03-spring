@@ -79,6 +79,7 @@ public class DespesaService {
 
                 if (despesaAtualizada != null){
                     DespesaDTO despesaDTO = convertToDTO(despesaAtualizada);
+                    despesaDTO.setId(id);
                     return despesaDTO;
                 }else{
                     throw new RegraDeNegocioException("Despesa não encontrado");
@@ -123,12 +124,13 @@ public class DespesaService {
     public DespesaDTO buscarById(Integer idDespesa) throws RegraDeNegocioException {
         try {
             Despesa despesa = despesaRepository.buscarPorId(idDespesa);
-            if (despesa != null) {
-                DespesaDTO despesaDTO = convertToDTO(despesa);
-                return despesaDTO;
-            } else {
+            if (despesa.getId() == null){
                 throw new RegraDeNegocioException("Despesa não encontrada");
             }
+            DespesaDTO despesaDTO = convertToDTO(despesa);
+
+            return despesaDTO;
+
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         }
