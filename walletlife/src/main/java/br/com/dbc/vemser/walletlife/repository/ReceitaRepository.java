@@ -70,7 +70,7 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
         try {
             con = ConexaoBancoDeDados.getConnection();
 
-            String sql = "DELETE FROM RECEITA WHERE id_receita = ?";
+            String sql = "DELETE FROM RECEITA WHERE ID_RECEITA = ?";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -95,7 +95,39 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
 
     @Override
     public List<Receita> listar() throws BancoDeDadosException {
-        return null;
+        List<Receita> receitas = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+
+            String sql = "SELECT * FROM RECEITA";
+
+            // Executa-se a consulta
+            ResultSet res = stmt.executeQuery(sql);
+
+            while (res.next()) {
+                Receita receita = new Receita();
+                receita.setId(res.getInt("id_receita"));
+                receita.setBanco(res.getString("banco"));
+                receita.setEmpresa(res.getString("empresa"));
+                receita.setValor(res.getDouble("valor"));
+                receita.setDescricao(res.getString("descricao"));
+                receita.setIdFK(res.getInt("id_usuario"));
+                receitas.add(receita);
+            }
+            return receitas;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -138,29 +170,30 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
 
 
     @Override
-    public List<Receita> listarPorId(Integer id) throws BancoDeDadosException {
+    public Receita buscarPorId(Integer idReceita) throws BancoDeDadosException {
 
-        List<Receita> receitas = new ArrayList<>();
+        Receita receita = new Receita();
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
-            Statement stmt = con.createStatement();
 
-            String sql = "SELECT * FROM RECEITA WHERE ID_USUARIO = " + id;
+            String sql = "SELECT * FROM RECEITA WHERE ID_RECEITA = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idReceita);
 
             // Executa-se a consulta
-            ResultSet res = stmt.executeQuery(sql);
+            ResultSet res = stmt.executeQuery();
 
-            while (res.next()) {
-                Receita receita = new Receita();
+            if (res.next()) {
                 receita.setId(res.getInt("id_receita"));
                 receita.setBanco(res.getString("banco"));
                 receita.setEmpresa(res.getString("empresa"));
                 receita.setValor(res.getDouble("valor"));
                 receita.setDescricao(res.getString("descricao"));
                 receita.setIdFK(res.getInt("id_usuario"));
-                receitas.add(receita);
             }
+            return receita;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -172,6 +205,43 @@ public class ReceitaRepository implements Repositorio<Integer, Receita> {
                 e.printStackTrace();
             }
         }
-        return receitas;
+    }
+
+    public List<Receita> listarPorIdUsuario(Integer idUsuario) throws BancoDeDadosException {
+        List<Receita> receitas = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+
+            String sql = "SELECT * FROM RECEITA WHERE ID_USUARIO = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idUsuario);
+
+            // Executa-se a consulta
+            ResultSet res = stmt.executeQuery();
+
+            while (res.next()) {
+                Receita receita = new Receita();
+                receita.setId(res.getInt("id_receita"));
+                receita.setBanco(res.getString("banco"));
+                receita.setEmpresa(res.getString("empresa"));
+                receita.setValor(res.getDouble("valor"));
+                receita.setDescricao(res.getString("descricao"));
+                receita.setIdFK(res.getInt("id_usuario"));
+                receitas.add(receita);
+            }
+            return receitas;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -1,56 +1,23 @@
 package br.com.dbc.vemser.walletlife.modelos;
 
 import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-public class Receita extends AbstractMovimentoDinheiro<TipoDespesaEReceita> {
+import javax.validation.constraints.NotEmpty;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Receita extends AbstractMovimentoDinheiro {
+    @NotEmpty
     private String banco;
 
+    @NotEmpty
     private String empresa;
 
-    private int idFK;
-
-    public Receita() {
-        super();
-    }
-
-    public Receita(double valor, String descricao, String banco, String empresa, int idFK) {
-        this.setValor(valor);
-        this.setDecricao(descricao);
-        this.banco = banco;
-        this.empresa = empresa;
-        this.idFK = idFK;
-    }
-
-    public String getBanco() {
-        return banco;
-    }
-
-    public void setBanco(String banco) {
-        this.banco = banco;
-    }
-
-    public String getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
-    }
-
-    public int getIdFK() {
-        return idFK;
-    }
-
-    public void setIdFK(int idFK) {
-        this.idFK = idFK;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("""
-                %s
-                Banco: %s
-                Empresa: %s""", super.toString(), getBanco(), getEmpresa());
-    }
+    private Integer idFK;
 }

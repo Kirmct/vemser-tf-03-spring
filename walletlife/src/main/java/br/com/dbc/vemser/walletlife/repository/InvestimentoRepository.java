@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.walletlife.repository;
 
+import br.com.dbc.vemser.walletlife.enumerators.TipoDespesaEReceita;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
 import br.com.dbc.vemser.walletlife.modelos.Investimento;
 import org.springframework.stereotype.Repository;
@@ -43,7 +44,7 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
 
             stmt.setInt(1, investimento.getId());
             stmt.setString(2, investimento.getCorretora());
-            stmt.setString(3, investimento.getTipo());
+            stmt.setString(3, String.valueOf(investimento.getTipo()));
             stmt.setDouble(4, investimento.getValor());
             stmt.setDate(5, Date.valueOf(investimento.getDataInicio()));
             stmt.setString(6, investimento.getDescricao());
@@ -51,7 +52,9 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
 
             int res = stmt.executeUpdate();
 
-            return investimento;
+            if (res > 0){
+                return investimento;
+            }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -63,6 +66,7 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
                 e.printStackTrace();
             }
         }
+        return null;
     }
 
     @Override
@@ -111,13 +115,18 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
                 Investimento investimento = new Investimento();
                 investimento.setId(res.getInt("id_investimento"));
                 investimento.setCorretora(res.getString("corretora"));
-                investimento.setTipo(res.getString("tipo"));
+
+                String tipoInvestimento = res.getString("Tipo").toUpperCase();
+                String despesaInvestimento = tipoInvestimento.replaceAll("\u00C1", "A");
+                investimento.setTipo(TipoDespesaEReceita.valueOf(despesaInvestimento));
+
                 investimento.setValor(res.getDouble("valor"));
                 investimento.setDataInicio(res.getDate("data_inicial").toLocalDate());
                 investimento.setDescricao(res.getString("descricao"));
                 investimento.setIdFK(res.getInt("id_usuario"));
                 investimentos.add(investimento);
             }
+            return investimentos;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -129,7 +138,6 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
                 e.printStackTrace();
             }
         }
-        return investimentos;
     }
 
     @Override
@@ -174,29 +182,34 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
     }
 
     @Override
-    public List<Investimento> listarPorId(Integer idUsuario) throws BancoDeDadosException {
-        List<Investimento> investimentos = new ArrayList<>();
+    public Investimento buscarPorId(Integer idInvestimento) throws BancoDeDadosException {
+        Investimento investimento = new Investimento();
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
-            Statement stmt = con.createStatement();
 
-            String sql = "SELECT * FROM INVESTIMENTO WHERE ID_USUARIO = " + idUsuario;
+            String sql = "SELECT * FROM INVESTIMENTO WHERE ID_INVESTIMENTO = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idInvestimento);
 
             // Executa-se a consulta
-            ResultSet res = stmt.executeQuery(sql);
+            ResultSet res = stmt.executeQuery();
 
-            while (res.next()) {
-                Investimento investimento = new Investimento();
+            if (res.next()) {
                 investimento.setId(res.getInt("id_investimento"));
                 investimento.setCorretora(res.getString("corretora"));
-                investimento.setTipo(res.getString("tipo"));
+
+                String tipoInvestimento = res.getString("Tipo").toUpperCase();
+                String despesaInvestimento = tipoInvestimento.replaceAll("\u00C1", "A");
+                investimento.setTipo(TipoDespesaEReceita.valueOf(despesaInvestimento));
+
                 investimento.setValor(res.getDouble("valor"));
                 investimento.setDataInicio(res.getDate("data_inicial").toLocalDate());
                 investimento.setDescricao(res.getString("descricao"));
                 investimento.setIdFK(res.getInt("id_usuario"));
-                investimentos.add(investimento);
             }
+            return investimento;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -208,7 +221,49 @@ public class InvestimentoRepository implements Repositorio<Integer, Investimento
                 e.printStackTrace();
             }
         }
-        return investimentos;
     }
 
+    public List<Investimento> listarPorIdUsuario(Integer idUsuario) throws BancoDeDadosException {
+        List<Investimento> investimentos = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+
+            String sql = "SELECT * FROM INVESTIMENTO WHERE ID_USUARIO = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idUsuario);
+
+            // Executa-se a consulta
+            ResultSet res = stmt.executeQuery();
+
+            while (res.next()) {
+                Investimento investimento = new Investimento();
+                investimento.setId(res.getInt("id_investimento"));
+                investimento.setCorretora(res.getString("corretora"));
+
+                String tipoInvestimento = res.getString("Tipo").toUpperCase();
+                String despesaInvestimento = tipoInvestimento.replaceAll("\u00C1", "A");
+                investimento.setTipo(TipoDespesaEReceita.valueOf(despesaInvestimento));
+
+                investimento.setValor(res.getDouble("valor"));
+                investimento.setDataInicio(res.getDate("data_inicial").toLocalDate());
+                investimento.setDescricao(res.getString("descricao"));
+                investimento.setIdFK(res.getInt("id_usuario"));
+                investimentos.add(investimento);
+            }
+
+            return investimentos;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

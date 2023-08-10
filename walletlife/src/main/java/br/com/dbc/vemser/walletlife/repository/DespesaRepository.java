@@ -38,20 +38,22 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
             despesa.setId(proximoId);
 
             String sql = "INSERT INTO DESPESA\n" +
-                    "(ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO, ID_USUARIO )\n" +
+                    "(ID_DESPESA, TIPO, VALOR, DESCRICAO, DATA_PAGAMENTO, ID_USUARIO)\n" +
                     "VALUES(?, ?, ?, ?, ?, ?)\n";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
             stmt.setInt(1, despesa.getId());
-            stmt.setString(2, despesa.getTipo().toString());
+            stmt.setString(2, String.valueOf(despesa.getTipo()));
             stmt.setDouble(3, despesa.getValor());
-            stmt.setString(4, despesa.getDescricao()); // RESIDENCIAL(1) //1
+            stmt.setString(4, despesa.getDescricao());
             stmt.setDate(5, Date.valueOf(despesa.getDataPagamento()));
             stmt.setInt(6, despesa.getIdFK());
 
             int res = stmt.executeUpdate();
-            return despesa;
+            if (res > 0){
+                return despesa;
+            }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -63,6 +65,7 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
                 e.printStackTrace();
             }
         }
+        return null;
     }
 
     @Override
@@ -101,19 +104,23 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
         try {
             con = ConexaoBancoDeDados.getConnection();
 
-            Despesa despesaAtualizada = new Despesa();
-
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE DESPESA SET ");
+            sql.append(" tipo = ?,");
             sql.append(" valor = ?,");
-            sql.append(" descricao = ?, ");
-            sql.append(" WHERE id_usuario = ?");
+            sql.append(" descricao = ?,");
+            sql.append(" data_pagamento = ?,");
+            sql.append(" id_usuario = ? ");
+            sql.append(" WHERE id_despesa = ?");
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
-            stmt.setDouble(1, despesa.getValor());
-            stmt.setString(2, despesa.getDescricao());
-            stmt.setInt(3, despesa.getIdFK());
+            stmt.setString(1, String.valueOf(despesa.getTipo()));
+            stmt.setDouble(2, despesa.getValor());
+            stmt.setString(3, despesa.getDescricao());
+            stmt.setDate(4, Date.valueOf(despesa.getDataPagamento()));
+            stmt.setInt(5, despesa.getIdFK());
+            stmt.setInt(6, id);
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
@@ -137,36 +144,31 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
 
     @Override
     public List<Despesa> listar() throws BancoDeDadosException {
-        return null;
-    }
-
-    @Override
-    public List<Despesa> listarPorId(Integer idUsuario) throws BancoDeDadosException {
         List<Despesa> despesas = new ArrayList<>();
+
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
             Statement stmt = con.createStatement();
-
-            String sql = "SELECT * FROM DESPESA where id_usuario = " + idUsuario;
+            String sql = "SELECT * FROM DESPESA";
 
             // Executa-se a consulta
             ResultSet res = stmt.executeQuery(sql);
-
             while (res.next()) {
                 Despesa despesa = new Despesa();
                 despesa.setId(res.getInt("id_despesa"));
 
                 String tipoDespesa = res.getString("Tipo").toUpperCase();
-                String despesaCerta = tipoDespesa.replaceAll("\u00C1", "A");
-                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaCerta));
+                String despesaTipo = tipoDespesa.replaceAll("\u00C1", "A");
+                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaTipo));
 
                 despesa.setValor(res.getDouble("valor"));
-                despesa.setDecricao(res.getString("descricao"));
+                despesa.setDescricao(res.getString("descricao"));
                 despesa.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
                 despesa.setIdFK(res.getInt("id_usuario"));
                 despesas.add(despesa);
             }
+            return despesas;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -178,7 +180,85 @@ public class DespesaRepository implements Repositorio<Integer, Despesa> {
                 e.printStackTrace();
             }
         }
-        return despesas;
+    }
 
+    @Override
+    public Despesa buscarPorId(Integer idDespesa) throws BancoDeDadosException {
+        Despesa despesa = new Despesa();;
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+
+            String sql = "SELECT * FROM DESPESA WHERE ID_DESPESA = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idDespesa);
+
+            ResultSet res = stmt.executeQuery();
+
+           if (res.next()) {
+                despesa.setId(res.getInt("id_despesa"));
+
+                String tipoDespesa = res.getString("Tipo").toUpperCase();
+                String despesaTipo = tipoDespesa.replaceAll("\u00C1", "A");
+                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaTipo));
+
+                despesa.setValor(res.getDouble("valor"));
+                despesa.setDescricao(res.getString("descricao"));
+                despesa.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
+                despesa.setIdFK(res.getInt("id_usuario"));
+            }
+            return despesa;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public List<Despesa>listarPorIdUsuario(Integer idUsuario) throws BancoDeDadosException {
+        List<Despesa> despesas = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+
+            String sql = "SELECT * FROM DESPESA WHERE ID_USUARIO = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idUsuario);
+
+            // Executa-se a consulta
+            ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                Despesa despesa = new Despesa();
+                despesa.setId(res.getInt("id_despesa"));
+
+                String tipoDespesa = res.getString("Tipo").toUpperCase();
+                String despesaTipo = tipoDespesa.replaceAll("\u00C1", "A");
+                despesa.setTipo(TipoDespesaEReceita.valueOf(despesaTipo));
+
+                despesa.setValor(res.getDouble("valor"));
+                despesa.setDescricao(res.getString("descricao"));
+                despesa.setDataPagamento(res.getDate("data_pagamento").toLocalDate());
+                despesa.setIdFK(res.getInt("id_usuario"));
+                despesas.add(despesa);
+            }
+            return despesas;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

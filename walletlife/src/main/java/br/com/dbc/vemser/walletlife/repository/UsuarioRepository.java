@@ -74,7 +74,6 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
-            System.out.println("removerUsuarioPorId.res= " + res);
 
             return res > 0;
         } catch (SQLException e) {
@@ -110,7 +109,6 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
 
             stmt.setString(1, usuario.getNomeCompleto());
             stmt.setDate(2, Date.valueOf(usuario.getDataNascimento()));
-            System.out.println(usuario.getDataNascimento());
             stmt.setString(3, usuario.getCpf());
             stmt.setString(4, usuario.getEmail());
             stmt.setString(5, usuario.getSenha());
@@ -118,7 +116,6 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
-            System.out.println("editarUsuario.res=" + res);
 
             if(res > 0){
                 return usuario;
@@ -175,8 +172,8 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
     }
 
     @Override
-    public List<Usuario> listarPorId(Integer idUsuario) throws BancoDeDadosException {
-        List<Usuario> usuarios = new ArrayList<>();
+    public Usuario buscarPorId(Integer idUsuario) throws BancoDeDadosException {
+        Usuario usuario = new Usuario();
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -188,14 +185,13 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
             ResultSet res = stmt.executeQuery(sql);
 
             while (res.next()) {
-                Usuario usuario = new Usuario();
                 usuario.setId(res.getInt("id_usuario"));
                 usuario.setNomeCompleto(res.getString("nome"));
                 usuario.setDataNascimento(res.getDate("dataNascimento").toLocalDate());
                 usuario.setCpf(res.getString("cpf"));
                 usuario.setEmail(res.getString("email"));
                 usuario.setSenha(res.getString("senha"));
-                usuarios.add(usuario);
+
             }
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
@@ -208,6 +204,6 @@ public class UsuarioRepository implements Repositorio<Integer, Usuario> {
                 e.printStackTrace();
             }
         }
-        return usuarios;
+        return usuario;
     }
 }
