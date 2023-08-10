@@ -19,5 +19,5 @@ public class Receita extends AbstractMovimentoDinheiro {
     @NotEmpty
     private String empresa;
 
-    private int idFK;
+    private Integer idFK;
 }

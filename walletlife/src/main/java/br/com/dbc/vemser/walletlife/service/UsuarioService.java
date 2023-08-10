@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.walletlife.service;
 
+import br.com.dbc.vemser.walletlife.dto.ReceitaDTO;
 import br.com.dbc.vemser.walletlife.dto.UsuarioCreateDTO;
 import br.com.dbc.vemser.walletlife.dto.UsuarioDTO;
 import br.com.dbc.vemser.walletlife.exceptions.BancoDeDadosException;
@@ -51,20 +52,18 @@ public class UsuarioService {
         return novoUsuario;
     }
 
-    public boolean removerPessoa(Integer id) {
+    public void removerPessoa(Integer id) {
         try {
             Usuario usuario = usuarioRepository.buscarPorId(id);
             if (usuario.getId() == null){
                 throw new RegraDeNegocioException("Usuário não encontrado");
             }
-            boolean conseguiuRemover = usuarioRepository.remover(id);
-            return conseguiuRemover;
+            usuarioRepository.remover(id);
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
         } catch (RegraDeNegocioException e) {
             throw new RuntimeException(e);
         }
-        return false;
     }
 
     // atualização de um objeto
@@ -77,6 +76,7 @@ public class UsuarioService {
             Usuario usuarioConvertido = objectMapper.convertValue(usuario, Usuario.class);
             Usuario conseguiuEditar = usuarioRepository.editar(id, usuarioConvertido);
             UsuarioDTO usuarioDTO = this.convertToDTO(conseguiuEditar);
+            usuarioDTO.setId(usuarioExiste.getId());
 
 
             Map<String, String> dados = new HashMap<>();
@@ -104,6 +104,7 @@ public class UsuarioService {
         try {
             Usuario listar = usuarioRepository.buscarPorId(id);
             UsuarioDTO usuarioDTO = this.convertToDTO(listar);
+            usuarioDTO.setId(listar.getId());
 
             if(listar.getId() == null){
                 throw new RegraDeNegocioException("Usuário não encontrado");
@@ -125,13 +126,7 @@ public class UsuarioService {
     }
 
     private UsuarioDTO convertToDTO(Usuario usuario){
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setCpf(usuario.getCpf());
-        usuarioDTO.setSenha(usuario.getSenha());
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setNomeCompleto(usuario.getNomeCompleto());
-        usuarioDTO.setDataNascimento(usuario.getDataNascimento());
+        UsuarioDTO usuarioDTO = objectMapper.convertValue(usuario, UsuarioDTO.class);
 
         return usuarioDTO;
     }

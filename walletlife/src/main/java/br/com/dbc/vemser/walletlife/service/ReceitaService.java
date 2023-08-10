@@ -61,7 +61,15 @@ public class ReceitaService {
     public ReceitaDTO editarReceita(Integer id, ReceitaDTO receita) throws RegraDeNegocioException {
         try {
             receita.setId(id);
+            Receita receitaExsite = receitaRepository.buscarPorId(id);
+
+            if (receitaExsite.getId() == null){
+                throw new RegraDeNegocioException("Receita não encontrada");
+            }
+
             ReceitaDTO entityDTO = buscarById(id);
+
+
             Receita entity = objectMapper.convertValue(entityDTO, Receita.class);
 
             if (entity != null) {
@@ -111,17 +119,20 @@ public class ReceitaService {
     }
 
     // leitura por id da receita
-    public ReceitaDTO buscarById(Integer idReceita) throws RegraDeNegocioException {
+    public ReceitaDTO buscarById(Integer idReceita) {
         try {
             Receita receita = receitaRepository.buscarPorId(idReceita);
-            if (receita != null) {
-                ReceitaDTO receitaDTO = convertToDTO(receita);
-                return receitaDTO;
-            } else {
+            ReceitaDTO receitaDTO = convertToDTO(receita);
+            if (receita.getId() == null) {
                 throw new RegraDeNegocioException("Receita não encontrada");
             }
+
+            return receitaDTO;
+
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
+        } catch (RegraDeNegocioException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }

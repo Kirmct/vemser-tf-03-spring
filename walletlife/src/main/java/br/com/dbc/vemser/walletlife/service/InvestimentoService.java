@@ -10,7 +10,6 @@ import br.com.dbc.vemser.walletlife.modelos.Usuario;
 import br.com.dbc.vemser.walletlife.repository.InvestimentoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -102,11 +101,16 @@ public class InvestimentoService {
     public InvestimentoDTO buscarById(Integer idInvestimento) {
         try {
             Investimento investimento = investimentoRepository.buscarPorId(idInvestimento);
-
             InvestimentoDTO investimentoDTO = convertToDTO(investimento);
+            if (investimento.getId() == null){
+                throw new RegraDeNegocioException("Investimento não encontrado");
+            }
+
             return investimentoDTO;
         } catch (BancoDeDadosException e) {
             e.printStackTrace();
+        } catch (RegraDeNegocioException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
